@@ -1,62 +1,79 @@
 import { Link } from "react-router-dom";
 import Menu from "./menu";
 import Navbar from "./nav";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import axios from 'axios';
-import { ToastContainer  ,toast, Bounce} from 'react-toastify';
+import { ToastContainer } from 'react-toastify';
+import { Showerror, Showmessage } from "./message";
+import { getImageUrl } from "./comman";
 export default function Admincategory() {
+  let display = function (item) {
+    return (<tr>
+      <td>{item.id}</td>
+      <td>{item.title}</td>
+      <td width="20%">
+        <img src={getImageUrl() + 'category/' + item.photo} alt className="img-fluid" />
+      </td>
+      <td>{(item.islive === '1') ? "Yes" : "No"}</td>
+      <td width="15%">
+        <Link to="/admin_editcategory" className="btn btn-warning btn-sm">Edit</Link>
+        <a href="#" className="btn btn-danger btn-sm">Delete</a>
+      </td>
+    </tr>)
+  }
+  let [iteams, setItams] = useState([]);
   useEffect(() => {
-    let aipAdress = 'https://theeasylearnacademy.com/shop/ws/category.php';
-    axios(
-      {
-        method: 'get',
-        url: aipAdress,
-        responseType: 'json'
 
-      }).then((respone) => {
-        console.log(respone.data);
-        /*  [{"error":"no"},
-        {"total":6},
-        {"id":"1","title":"laptop","photo":"laptop.jpg","islive":"1","isdeleted":"0"} */
-        let error = respone.data['0'][error];
-        console.log(error);
-        if (error !== 'no') {
-          alert(error);
-        }
-        else {
-          let total = respone.data[1]['total'];
-          console.log(total);
-          if (total === '0') {
-            alert('category not found');
+    if(iteams.length === 0)
+    {
+      
+      let aipAdress = 'https://theeasylearnacademy.com/shop/ws/category.php';
+      axios(
+        {
+          method: 'get',
+          url: aipAdress,
+          responseType: 'json'
+          
+        }).then((respone) => {
+          console.log(respone.data);
+          /*  [{"error":"no"},
+          {"total":6},
+          {"id":"1","title":"laptop","photo":"laptop.jpg","islive":"1","isdeleted":"0"} */
+          let error = respone.data['0']['error'];
+          console.log(error);
+          if (error !== 'no') {
+            alert(error);
           }
+          // no error than run else block 
+          // and delete 2 object of api and show data after delet
           else {
-            respone.data.splice(0, 2);
+            let total = respone.data[1]['total'];
+            console.log(total);
+            if (total === 0) {
+              Showmessage('Category not Found')
+            }
+            else {
+              // the condition is true delete two object 
+              
+              respone.data.splice(0, 2);
             console.log(respone.data);
+            setItams(respone.data);
+            Showmessage('You Are Online')
+            
           }
         }
-
-
       }).catch((error) => {
-        if (error.code === 'Erroe Network')
+        if (error.code === 'ERR_NETWORK')
+          //console.log(error.code);
+        Showerror()
         
-
-          toast.error(' you are offline either some issue', 
-            {
-            position: "top-center",
-            autoClose: 5000,
-            hideProgressBar: false,
-            closeOnClick: false,
-            pauseOnHover: false,
-            draggable: true,
-            progress: undefined,
-            theme: "light",
-            transition: Bounce,
-          });
         
-
-      })
-  })
-  return (<div id="wrapper">
+        
+        
+      });
+    }
+    }, [])
+    return (<div id="wrapper">
     {/* Sidebar */}
     <Menu />
     {/* End of Sidebar */}
@@ -68,7 +85,7 @@ export default function Admincategory() {
         <Navbar />
         {/* End of Topbar */}
         {/* Begin Page Content */}
-        <ToastContainer/>
+        <ToastContainer />
         <div className="container-fluid">
           <div className="row">
             <div className="col-12">
@@ -86,25 +103,13 @@ export default function Admincategory() {
                         <th>id</th>
                         <th>Title</th>
                         <th>Photo</th>
-                        <th>Detail</th>
+
                         <th>is live</th>
                         <th>Action</th>
                       </tr>
                     </thead>
                     <tbody>
-                      <tr>
-                        <td>1</td>
-                        <td>Phone</td>
-                        <td width="20%">
-                          <img src="https://picsum.photos/100" alt className="img-fluid" />
-                        </td>
-                        <td>Lorem ipsum dolor sit amet consectetur adipisicing elit. Eum ea fugit iste est! Eum beatae fuga ipsam temporibus culpa, id sunt dignissimos. Numquam natus tenetur repellat quidem reiciendis, dicta eligendi.</td>
-                        <td>Yes</td>
-                        <td width="15%">
-                          <Link to="/admin_editcategory" className="btn btn-warning btn-sm">Edit</Link>
-                          <a href="#" className="btn btn-danger btn-sm">Delete</a>
-                        </td>
-                      </tr>
+                      {iteams.map((item) => display(item))}
                     </tbody>
                   </table>
                 </div>
