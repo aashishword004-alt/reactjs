@@ -1,5 +1,6 @@
 import Menu from "./menu";
 import Navbar from "./nav";
+import { Link } from "react-router-dom";
 
 export default function Admineditecategory()
 {
@@ -19,7 +20,7 @@ export default function Admineditecategory()
           <div className="card shadow mb-4">
             <div className="card-header py-3 d-flex justify-content-between">
               <h5 className="m-0 text-dark">Edit category</h5>
-              <a href="category.html" className="btn btn-primary">Back</a>
+              <Link to="/admin_category" className="btn btn-primary">Back</Link>
             </div>
             <div className="card-body">
               <form action method="post">

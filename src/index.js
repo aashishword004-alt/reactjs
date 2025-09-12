@@ -25,13 +25,13 @@ function Shop() {
   return (
     <BrowserRouter>
     <Routes>
-        <Route path='/adminLogin' element={<Login/>} />
+        <Route path='/' element={<Login/>} />
         <Route path='/admin_addcategory' element={<Adminaddcategory/>} />
         <Route path='/admin_addproduct' element={<Adminaddproduct/>} />
         <Route path='/admin_category' element={<Admincategory/>} />
         <Route path='/admin_changepassword' element={<Adminchangepassword/>} />
         <Route path='/admin_dashbord' element={<Admindashbord/>} />
-        <Route path='/admin_editecategory' element={<Admineditecategory/>} />
+        <Route path='/admin_editcategory' element={<Admineditecategory/>} />
         <Route path='/admin_editproduct' element={<Adminediteproduct/>} />
         <Route path='/admin_forgotepassword' element={<Adminforgotepassword/>} />
         <Route path='/admin_oder' element={<Adminoders/>} />
@@ -40,7 +40,7 @@ function Shop() {
         <Route path='/admin_viewodersdetail' element={<Adminviewoderdetails/>} />
         <Route path='/admin_viewproduct' element={<Adminviewproduct/>} />
         <Route path='/adminuser' element={<Adminuser/>}/>
-        <Route path='/*' element={<Four/>}/>
+        //<Route path='/*' element={<Four/>}/>
       </Routes>
     </BrowserRouter>
   );
