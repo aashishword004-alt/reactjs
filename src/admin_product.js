@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import { Showerror, Showmessage } from "./message";
 import { ToastContainer } from "react-toastify";
+import { getImageUrl } from "./comman";
 
 export default function AdminProduct() {
 
@@ -13,16 +14,16 @@ export default function AdminProduct() {
       <td>{item.id}</td>
       <td>
         <Link to="/admin_viewproduct" target="_blank">
-          IPhone - 14 <br />
-          Phone
+          {item.category} <br />
+          {item.title}
         </Link>
       </td>
-      <td>125000</td>
-      <td>
-        <img src="http://picsum.photos/100" className="img-fluid" />
+      <td>{item.price}</td>
+      <td width='20%'>
+        <img src={getImageUrl() + 'product/' + item.photo} className="img-fluid" />
       </td>
-      <td>100</td>
-      <td>Yes</td>
+      <td>{item.stock}</td>
+      <td>{(item.islive === '1' ? 'Yes' : 'No')}</td>
       <td>
         <a href="admin_edit_product.html" className="btn btn-warning btn-sm btn-block mb-1">Edit</a>
         <a href="#" className="btn btn-danger btn-sm btn-block">Delete</a>
@@ -33,6 +34,10 @@ export default function AdminProduct() {
 
   // use useeffact to calling api 
   useEffect(() => {
+    if(itams.length === 0)
+    {
+
+    
     let aipAdress = 'https://theeasylearnacademy.com/shop/ws/product.php'; // api addres
     axios({
       method: 'get',               // method and typ
@@ -74,7 +79,7 @@ export default function AdminProduct() {
         // console.log(error.code);
         Showerror()
     })
-  })
+}})
   return (<div id="wrapper">
     {/* Sidebar */}
     <Menu />
