@@ -49,7 +49,8 @@ export default function Admincategory() {
           else {
             let total = respone.data[1]['total'];
             console.log(total);
-            if (total === 0) {
+            if (total === 0) 
+              {
               Showmessage('Category not Found')
             }
             else {
@@ -64,14 +65,14 @@ export default function Admincategory() {
         }
       }).catch((error) => {
         if (error.code === 'ERR_NETWORK')
-          //console.log(error.code);
+        console.log(error.code);
         Showerror()
         
         
         
         
-      });
-    }
+      }); 
+    }  
     }, [])
     return (<div id="wrapper">
     {/* Sidebar */}
