@@ -7,8 +7,10 @@ import { Showerror, Showmessage } from "./message";
 import { ToastContainer } from "react-toastify";
 
 export default function Admindashbord() {
-  let [item, setItems] = useState([])
+  let [item, setItem] = useState([])
   useEffect(() => {
+    if(item.length === 0)
+    {
     let apiAdress = getBaseUrl() + 'summery.php'
     axios({
       method: 'get',
@@ -24,9 +26,9 @@ export default function Admindashbord() {
       if (error !== 'no')
         console.log(error)
       else {
-        response.data.spilce(0, 1)
+        response.data.splice(0, 1)
         console.log(response.data)
-        setItems(response.data)
+        setItem(response.data[0])
         Showmessage('Now')
       }
 
@@ -35,10 +37,14 @@ export default function Admindashbord() {
         console.log(error.code)
       //Showerror()
     })
-
+  }
   })
-  return (<div id="wrapper">
+  if(item !== undefined)
+  {
+
+    return (<div id="wrapper">
     {/* Sidebar */}
+  
     <Menu />
     {/* End of Sidebar */}
     {/* Content Wrapper */}
@@ -68,7 +74,7 @@ export default function Admindashbord() {
                               <div className="text-xs font-weight-bold text-primary text-uppercase mb-1">
                                 Orders (today)
                               </div>
-                              <div className="h5 mb-0 font-weight-bold text-gray-800">10</div>
+                              <div className="h5 mb-0 font-weight-bold text-gray-800">{item['daily']}</div>
                             </div>
                             <div className="col-auto">
                               <i className="fas fa-calendar fa-2x text-gray-300" />
@@ -100,9 +106,9 @@ export default function Admindashbord() {
                           <div className="row no-gutters align-items-center">
                             <div className="col mr-2">
                               <div className="text-xs font-weight-bold text-primary text-uppercase mb-1">
-                                Orders (Quaterly)
+                                Orders (weekly)
                               </div>
-                              <div className="h5 mb-0 font-weight-bold text-gray-800">90</div>
+                              <div className="h5 mb-0 font-weight-bold text-gray-800">{item['weekly']}</div>
                             </div>
                             <div className="col-auto">
                               <i className="fas fa-calendar fa-2x text-gray-300" />
@@ -119,7 +125,7 @@ export default function Admindashbord() {
                               <div className="text-xs font-weight-bold text-primary text-uppercase mb-1">
                                 Orders (Yearly)
                               </div>
-                              <div className="h5 mb-0 font-weight-bold text-gray-800">360</div>
+                              <div className="h5 mb-0 font-weight-bold text-gray-800">{item['yearly']}</div>
                             </div>
                             <div className="col-auto">
                               <i className="fas fa-calendar fa-2x text-gray-300" />
@@ -138,7 +144,7 @@ export default function Admindashbord() {
                               <div className="text-xs font-weight-bold text-primary text-uppercase mb-1">
                                 Products
                               </div>
-                              <div className="h5 mb-0 font-weight-bold text-gray-800">10</div>
+                              <div className="h5 mb-0 font-weight-bold text-gray-800">{item['products']}</div>
                             </div>
                             <div className="col-auto">
                               <i className="fa fa-gift fa-2x text-info" />
@@ -155,7 +161,7 @@ export default function Admindashbord() {
                               <div className="text-xs font-weight-bold text-primary text-uppercase mb-1">
                                 Categories
                               </div>
-                              <div className="h5 mb-0 font-weight-bold text-gray-800">3</div>
+                              <div className="h5 mb-0 font-weight-bold text-gray-800">{item['categories']}</div>
                             </div>
                             <div className="col-auto">
                               <i className="fa fa-tags fa-2x text-danger" />
@@ -172,7 +178,7 @@ export default function Admindashbord() {
                               <div className="text-xs font-weight-bold text-primary text-uppercase mb-1">
                                 Users
                               </div>
-                              <div className="h5 mb-0 font-weight-bold text-gray-800">200</div>
+                              <div className="h5 mb-0 font-weight-bold text-gray-800">{item['users']}</div>
                             </div>
                             <div className="col-auto">
                               <i className="fa fa-users fa-2x text-success" />
@@ -193,5 +199,9 @@ export default function Admindashbord() {
     </div>
     {/* End of Content Wrapper */}
   </div>
-  );
+  )}
+  else
+  {
+    return(<></>)
+  }
 }
