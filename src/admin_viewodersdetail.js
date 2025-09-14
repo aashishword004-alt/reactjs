@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 import Menu from "./menu";
 import Navbar from "./nav";
-
+// view oderdetails pandding
 export default function Adminviewoderdetails()
 {
     return(<div id="wrapper">
