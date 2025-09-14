@@ -1,5 +1,6 @@
 import Menu from "./menu";
 import Navbar from "./nav";
+import { Link } from "react-router-dom";
 
 export default  function Adminediteproduct(){
     return(<div id="wrapper">
@@ -20,8 +21,8 @@ export default  function Adminediteproduct(){
             <div className="card shadow mb-4">
               <div className="card-header py-3 d-flex justify-content-between">
                 <h5 className="m-0 font-weight-bold text-primary">Products (edit)</h5>
-                <a href="admin_product.html" className="btn btn-primary btn-sm">back
-                </a>
+                <Link to="/admin_product" className="btn btn-primary btn-sm">back
+                </Link>
               </div>
               <div className="card-body">
                 <form>

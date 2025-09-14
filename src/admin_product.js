@@ -13,8 +13,10 @@ export default function AdminProduct() {
     return (<tr>
       <td>{item.id}</td>
       <td>
-        <Link to="/admin_viewproduct" target="_blank">
-          {item.category} <br />
+      {  // add id into link 
+      }
+        <Link to={'/admin_viewproduct/' + item['id']} target="_blank">         
+         {item.category} <br />
           {item.title}
         </Link>
       </td>
@@ -25,7 +27,7 @@ export default function AdminProduct() {
       <td>{item.stock}</td>
       <td>{(item.islive === '1' ? 'Yes' : 'No')}</td>
       <td>
-        <a href="admin_edit_product.html" className="btn btn-warning btn-sm btn-block mb-1">Edit</a>
+        <Link to="/admin_editproduct" className="btn btn-warning btn-sm btn-block mb-1">Edit</Link>
         <a href="#" className="btn btn-danger btn-sm btn-block">Delete</a>
       </td>
     </tr>);
@@ -34,52 +36,52 @@ export default function AdminProduct() {
 
   // use useeffact to calling api 
   useEffect(() => {
-    if(itams.length === 0)
-    {
+    if (itams.length === 0) {
 
-    
-    let aipAdress = 'https://theeasylearnacademy.com/shop/ws/product.php'; // api addres
-    axios({
-      method: 'get',               // method and typ
-      responseType: 'json',
-      url: aipAdress
 
-    }).then((response) =>    // promisse 
-    {
-      console.log(response.data);
-      /*
-      0[{"error":"no"},
-      1{"total":12},
-      2{"id":"1","categoryid":"1","title":"Acer Laptop","price":"100","stock":"69","weight":"1000","size":"15 inch","photo":"acer.jpg","detail":"WINDOWS 10 4 GB DDR3 RAM 128 gb ssd hard disk","islive":"1","isdeleted":"0","categorytitle":"laptop"}, */
-      // checke the error
-      let error = response.data['0']['error'];
-      console.log(error);
-      if (error !== 'no') {
-        alert(error);
-      }
-      //  no error found displat the total item
-      else {
-        let total = response.data[1]['total']
-        console.log(total);
-        if (total === 0) {
-          Showmessage("Category not found")
+      let aipAdress = 'https://theeasylearnacademy.com/shop/ws/product.php'; // api addres
+      axios({
+        method: 'get',               // method and typ
+        responseType: 'json',
+        url: aipAdress
+
+      }).then((response) =>    // promisse 
+      {
+        console.log(response.data);
+        /*
+        0[{"error":"no"},
+        1{"total":12},
+        2{"id":"1","categoryid":"1","title":"Acer Laptop","price":"100","stock":"69","weight":"1000","size":"15 inch","photo":"acer.jpg","detail":"WINDOWS 10 4 GB DDR3 RAM 128 gb ssd hard disk","islive":"1","isdeleted":"0","categorytitle":"laptop"}, */
+        // checke the error
+        let error = response.data['0']['error'];
+        console.log(error);
+        if (error !== 'no') {
+          alert(error);
         }
+        //  no error found displat the total item
         else {
-          // condition is true delete to object of array
-          response.data.splice(0, 2)
-          console.log(response.data);
-          setItams(response.data)
-          Showmessage('You are Online')
+          let total = response.data[1]['total']
+          console.log(total);
+          if (total === 0) {
+            Showmessage("Category not found")
+          }
+          else {
+            // condition is true delete to object of array
+            response.data.splice(0, 2)
+            console.log(response.data);
+            setItams(response.data)
+            Showmessage('You are Online')
 
+          }
         }
-      }
 
-    }).catch((error) => {
-      if (error.code === 'ERR_NETWORK')
-        // console.log(error.code);
-        Showerror()
-    })
-}})
+      }).catch((error) => {
+        if (error.code === 'ERR_NETWORK')
+          // console.log(error.code);
+          Showerror()
+      })
+    }
+  })
   return (<div id="wrapper">
     {/* Sidebar */}
     <Menu />

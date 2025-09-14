@@ -26,7 +26,7 @@ export default function Adminforgotepassword(){
                 </form>
                 <hr />
                 <div className="text-center">
-                  <Link className="small" to="/adminLogin">Already have an account? Login!</Link>
+                  <Link className="small" to="/">Already have an account? Login!</Link>
                 </div>
               </div>
             </div>
