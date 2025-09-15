@@ -5,6 +5,7 @@ import { getBaseUrl } from "./comman";
 import axios from "axios";
 import { Showerror, Showmessage } from "./message";
 import { ToastContainer } from "react-toastify";
+import { Link } from "react-router-dom";
 
 export default function Adminoders() {
   let display = function (user) {
@@ -18,9 +19,9 @@ export default function Adminoders() {
       </td>
       <td>{user.orderstatus}</td>
       <td>
-        <a className="btn btn-primary" href="admin-view-order-detail.html">
+        <Link className="btn btn-primary" to="/admin_viewodersfetails">
           View
-        </a>
+        </Link>
       </td>
     </tr>)
   }

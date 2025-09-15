@@ -5,7 +5,7 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import { Showerror, Showmessage } from "./message";
 import { ToastContainer } from "react-toastify";
-import { getImageUrl } from "./comman";
+import { getBaseUrl, getImageUrl } from "./comman";
 
 export default function AdminProduct() {
 
@@ -39,7 +39,7 @@ export default function AdminProduct() {
     if (itams.length === 0) {
 
 
-      let aipAdress = 'https://theeasylearnacademy.com/shop/ws/product.php'; // api addres
+      let aipAdress =  getBaseUrl ()+ 'product.php'; // api addres
       axios({
         method: 'get',               // method and typ
         responseType: 'json',

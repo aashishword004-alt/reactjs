@@ -8,6 +8,7 @@ import { Showerror, Showmessage } from "./message";
 import { ToastContainer } from "react-toastify";
 
 export default function Adminviewproduct() {
+  // whene you find details use useParams
   let {productid} = useParams();
   let [products, setProduct] = useState([])
   useEffect(() => {

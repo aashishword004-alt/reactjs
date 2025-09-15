@@ -5,7 +5,7 @@ import { useEffect, useState } from "react";
 import axios from 'axios';
 import { ToastContainer } from 'react-toastify';
 import { Showerror, Showmessage } from "./message";
-import { getImageUrl } from "./comman";
+import { getBaseUrl, getImageUrl } from "./comman";
 export default function Admincategory() {
   let display = function (item) {
     return (<tr>
@@ -27,7 +27,7 @@ export default function Admincategory() {
     if(iteams.length === 0)
     {
       
-      let aipAdress = 'https://theeasylearnacademy.com/shop/ws/category.php';
+      let aipAdress = getBaseUrl()+'category.php';
       axios(
         {
           method: 'get',
