@@ -1,4 +1,4 @@
-import { Link, useParams } from "react-router-dom";
+import { Link} from "react-router-dom";
 import Menu from "./menu";
 import Navbar from "./nav";
 import { useEffect, useState } from "react";
@@ -9,13 +9,13 @@ import { ToastContainer } from "react-toastify";
 // view oderdetails pandding
 export default function Adminviewoderdetails() {
   // useParmas method
-  let [odersid] = useParams()
+ // let [odersid] = useParams()
   // state variable create for store values
   let [oders, setOder] = useState([])
   useEffect(() => {
     if (oders.length === 0) {
 
-      let apiaddress = getBaseUrl() + 'orders.php?odersid=' + odersid;
+      let apiaddress = getBaseUrl() + 'orders.php'
       // let apiaddressdetails = getBaseUrl() + 'order_details.php';
       axios({
         method: 'get',
