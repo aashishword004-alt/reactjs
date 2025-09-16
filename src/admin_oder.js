@@ -9,7 +9,7 @@ import { Link } from "react-router-dom";
 
 export default function Adminoders() {
   let display = function (user) {
-    return( <tr>
+    return (<tr>
       <td>{user.id}</td>
       <td>{user.billdate}</td>
       <td>{user.amount}</td>
@@ -19,8 +19,7 @@ export default function Adminoders() {
       </td>
       <td>{user.orderstatus}</td>
       <td>
-        <Link className="btn btn-primary" to="/admin_viewodersfetails">
-          View
+        <Link className="btn btn-primary" to={`/admin_viewodersdetail/${user.id}`}>View
         </Link>
       </td>
     </tr>)

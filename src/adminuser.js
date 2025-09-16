@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+//import { Link } from "react-router-dom";
 import Menu from "./menu";
 import Navbar from "./nav";
 import { useEffect, useState } from "react";
@@ -17,7 +17,10 @@ export default function Adminuser() {
       <td>{user['mobile']}</td>
       <td>Fri 09-08-2024</td>
       <td>
-        <Link className="btn btn-primary" to="/admin_viewodersdetail">View</Link>
+      {
+      //  <Link className="btn btn-primary" to="/admin_viewodersdetail">View</Link>
+        
+      } 
       </td>
     </tr>)
   }

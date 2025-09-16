@@ -34,8 +34,8 @@ export default function Admindashbord() {
 
     }).catch((error) => {
       if (error.code === "ERR_NETWORK")
-        console.log(error.code)
-      //Showerror()
+      //  console.log(error.code)
+      Showerror()
     })
   }
   })
