@@ -27,7 +27,19 @@ export default function Adminviewoderdetails() {
 
       let apiaddress = getBaseUrl() + 'orders.php?id=' + orderid;
 
-      // let apiaddressdetails = getBaseUrl() + 'order_details.php';
+     let apiaddressdetails = getBaseUrl() + 'order_details.php';
+     axios({
+      method:'get',
+      responseType:'json',
+      url:apiaddressdetails
+     }).then((response) =>
+    {
+     console.log(response.data)
+    }).catch((error) =>{
+      if(error.code === 'ERR_NETWORK')
+        console.log(error.code)
+    })
+    
 
       axios({
         method: 'get',
@@ -118,7 +130,7 @@ export default function Adminviewoderdetails() {
                           <td>Address</td>
                           <td>
                             {Orders['address1']} <br />
-                            {Orders['addredd2']}                          </td>
+                            {Orders['addredd2']}</td>
                           <td>Bill No</td>
                           <td>{Orders['']}</td>
                         </tr>
@@ -147,7 +159,7 @@ export default function Adminviewoderdetails() {
                         </tr>
                         <tr>
                           <td colSpan={1}>Remarks</td>
-                          <td colSpan={3}>{Orders['remarks']}</td>
+                          <td colSpan={3}>{Orders['remarks ']}</td>
                         </tr>
                       </tbody>
                     </table>
