@@ -14,18 +14,18 @@ import { ToastContainer } from "react-toastify";
 
 export default function Adminviewoderdetails() {
 
-  let { oderid } = useParams();
+  let { orderid } = useParams();
 
   // useParmas method
   // let [odersid] = useParams()
   // state variable create for store values
 
-  let [oders, setOder] = useState([])
+  let [Orders, setOder] = useState([])
 
   useEffect(() => {
-    if (oders.length === 0) {
+    if (Orders.length === 0) {
 
-      let apiaddress = getBaseUrl() + 'orders.php?id=' + oderid;
+      let apiaddress = getBaseUrl() + 'orders.php?id=' + orderid;
 
       // let apiaddressdetails = getBaseUrl() + 'order_details.php';
 
@@ -47,7 +47,14 @@ export default function Adminviewoderdetails() {
 
         // api oders
         /* [{"error":"no"},
-       [{"error":"no"},{"total":1},{"billdate":"27-11-2024","orderstatus":"5","id":"20","fullname":"jenil gabani","address1":"bhavangar","address2":"surat","city":"surat","pincode":"undefi","amount":"800","mobile":"9054228044","remarks":"100","paymentmode":"1","paymentstat */
+       [{"error":"no"},{"total":1},
+       {"billdate":"27-11-2024",
+       "orderstatus":"5","id":"20",
+       "fullname":"jenil gabani",
+       "address1":"bhavangar","address2":
+       "surat","city":"surat","pincode":"undefi",
+       "amount":"800","mobile":"9054228044",
+       "remarks":"100","paymentmode":"1","paymentstat */
 
         else {
           let total = response.data[1]['total']
@@ -60,7 +67,7 @@ export default function Adminviewoderdetails() {
           else {
             response.data.splice(0, 2)
             console.log(response.data);
-            setOder(response.data)
+            setOder(response.data[0])
             Showmessage('oder hear')
           }
         }
@@ -71,8 +78,7 @@ export default function Adminviewoderdetails() {
       })
 
     }
-  },[oderid]);
-  if (oders != undefined) {
+  }, [orderid]);
     return (<div id="wrapper">
       {/* Sidebar */}
       <Menu />
@@ -104,22 +110,21 @@ export default function Adminviewoderdetails() {
                       <tbody>
                         <tr>
                           <td width="25%">Name</td>
-                          <td width="25%">{oders['fullname']}</td>
+                          <td width="25%">{Orders['fullname']}</td>
                           <td width="25%">Date</td>
-                          <td width="25%">Fri 09-08-2024</td>
+                          <td width="25%">{Orders['billdate']}</td>
                         </tr>
                         <tr>
                           <td>Address</td>
                           <td>
-                            eva surbhi, opp akshwarwadi <br />
-                            Waghwadi road, bhavnagar
-                          </td>
+                            {Orders['address1']} <br />
+                            {Orders['addredd2']}                          </td>
                           <td>Bill No</td>
-                          <td>125</td>
+                          <td>{Orders['']}</td>
                         </tr>
                         <tr>
                           <td>Pincode</td>
-                          <td>364001</td>
+                          <td>{Orders['pincode']}</td>
                           <td>Delivery Status</td>
                           <td>
                             <form action>
@@ -136,16 +141,16 @@ export default function Adminviewoderdetails() {
                         </tr>
                         <tr>
                           <td>Mobile</td>
-                          <td>1234567890</td>
+                          <td>{Orders['mobile']}</td>
                           <td>Payment Status</td>
-                          <td>Online</td>
+                          <td>{Orders['paymentstat']}</td>
                         </tr>
                         <tr>
                           <td colSpan={1}>Remarks</td>
-                          <td colSpan={3}>Lorem ipsum dolor sit amet consectetur adipisicing elit. Illo possimus maxime debitis! Atque doloribus laborum similique officia deleniti delectus velit, et consequatur provident quas, ex sequi necessitatibus a tenetur? Culpa.</td>
+                          <td colSpan={3}>{Orders['remarks']}</td>
                         </tr>
                       </tbody>
-                      </table>
+                    </table>
                     <hr />
                     <table className="table table-sm table-striped table-bordered">
                       <thead>
@@ -190,5 +195,5 @@ export default function Adminviewoderdetails() {
       {/* End of Content Wrapper */}
     </div>
     );
-  }
+  
 }

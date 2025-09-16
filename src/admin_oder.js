@@ -19,8 +19,8 @@ export default function Adminoders() {
       </td>
       <td>{user.orderstatus}</td>
       <td>
-        <Link className="btn btn-primary" to={`/admin_viewodersdetail/${user.id}`}>View
-        </Link>
+       <Link className="btn btn-primary" to={'/admin_viewodersdetail/:' + user['id']}>View</Link>
+
       </td>
     </tr>)
   }

@@ -6,6 +6,7 @@ import { getBaseUrl } from "./comman";
 import axios from "axios";
 import { Showerror, Showmessage } from "./message";
 import { ToastContainer } from "react-toastify";
+import { Link } from "react-router-dom";
 
 
 export default function Adminuser() {
@@ -16,12 +17,9 @@ export default function Adminuser() {
       <td>{user['email']}</td>
       <td>{user['mobile']}</td>
       <td>Fri 09-08-2024</td>
-      <td>
-      {
-      //  <Link className="btn btn-primary" to="/admin_viewodersdetail">View</Link>
-        
-      } 
-      </td>
+      <td><Link className="btn btn-primary" to={'/admin_viewodersdetail/' + user['id']}>View</Link>
+</td>
+
     </tr>)
   }
 
