@@ -9,67 +9,16 @@ import { ToastContainer } from "react-toastify";
 
 export default function Adminadproduct() {
   let [cates, setCate] = useState([]);
-  const [category, setCategory] = useState("");
-  const [title, setTitle] = useState("");
-  const [price, setPrice] = useState("");
-  const [details, setDetails] = useState("");
-  const [stock, setStock] = useState("");
-  const [weight, setWeight] = useState("");
-  const [size, setSize] = useState("");
-  const [photo, setPhoto] = useState(null);
-  const [isLive, setIsLive] = useState("");
-  const navigate = useNavigate();
-
-
-  let insertdata = function (e) {
-    console.log(photo, category, price, details, stock, isLive, size, title, weight)
-
-    let aipAdress = getBaseUrl() + 'insert_product.php';
-    e.preventDefault();
-    let form = new FormData();
-    form.append('photo', photo);
-    form.append('category', category);
-    form.append('price', price);
-    form.append('details', details);
-    form.append('stock', stock);
-    form.append('islive', isLive);
-    form.append('size', size);
-    form.append('title', title);
-    form.append('weight', weight);
-    axios({
-      method: 'post',
-      responseType: 'json',
-      url: aipAdress,
-      data: form
-    }).then((response) => {
-      console.log(response.data)
-      let error = response.data[0]['error']
-      if (error !== 'no') {
-        Showerror(error);
-      }
-
-      else {
-        let success = response.data[1]['success'];
-        let message = response.data[2]['message'];
-        if (success === 'no') {
-          Showmessage(success);
-          setTimeout(() => {
-            navigate('/admin_product')
-          }, 1000)
-        }
-        else {
-          Showmessage(message);
-
-        }
-      }
-    }).catch((error) => {
-      if (error.code === 'ERR_NETWORK') {
-        console.log(error.code)
-        Showerror();
-      }
-    });
-  }
-
+  let [category, setCategory] = useState("");
+  let [title, setTitle] = useState("");
+  let [price, setPrice] = useState("");
+  let [details, setDetails] = useState("");
+  let [stock, setStock] = useState("");
+  let [weight, setWeight] = useState("");
+  let [size, setSize] = useState("");
+  let [photo, setPhoto] = useState(null);
+  let [isLive, setIsLive] = useState('1');
+  let navigate = useNavigate();
   let factcategory = function () {
     if (cates.length === 0) {
       let aipAdress = getBaseUrl() + 'category.php';
@@ -105,6 +54,58 @@ export default function Adminadproduct() {
     }
   }
   useEffect(() => { factcategory() }, []);
+
+  let insertdata = function (e) {
+    console.log(photo, category, price, details, stock, isLive, size, title, weight)
+
+    let aipAdress = getBaseUrl() + 'insert_product.php';
+    e.preventDefault();
+    let form = new FormData();
+    form.append('photo', photo);
+    form.append('category', category);
+    form.append('price', price);
+    form.append('details', details);
+    form.append('stock', stock);
+    form.append('islive', isLive);
+    form.append('size', size);
+    form.append('title', title);
+    form.append('weight', weight);
+    axios({
+      method: 'post',
+      responseType: 'json',
+      url: aipAdress,
+      data: form
+    }).then((response) => {
+      console.log(response.data)
+      let error = response.data[0]['error']
+      if (error !== 'no') {
+        Showerror(error);
+      }
+
+      else {
+        let success = response.data[1]['success'];
+        let message = response.data[2]['message'];
+        if (success === 'no') {
+          Showerror(success);
+
+        }
+        else {
+          Showmessage(message);
+          setTimeout(() => {
+            navigate('/admin_product')
+          }, 1000)
+
+        }
+      }
+    }).catch((error) => {
+      if (error.code === 'ERR_NETWORK') {
+        console.log(error.code)
+        Showerror();
+      }
+    });
+  }
+
+
 
   return (<div id="wrapper">
     {/* Sidebar */}
@@ -256,8 +257,7 @@ export default function Adminadproduct() {
                             type="radio"
                             name="islive"
                             id="isLiveYes"
-                            value="1"
-                            checked={isLive === "1"}
+                            value={'1'}
                             onChange={(e) => setIsLive(e.target.value)}
                             required
                           />
@@ -269,8 +269,7 @@ export default function Adminadproduct() {
                             type="radio"
                             name="islive"
                             id="isLiveNo"
-                            value="0"
-                            checked={isLive === "0"}
+                            value={'0'}
                             onChange={(e) => setIsLive(e.target.value)}
                             required
                           />
@@ -294,8 +293,7 @@ export default function Adminadproduct() {
                             setWeight("");
                             setSize("");
                             setPhoto(null);
-                            setIsLive("1"); // ✅ default radio so it won’t disappear
-                            //document.getElementById("photo").value = ""; // ✅ clears file input
+                    
                           }}
                         >
                           Clear all
