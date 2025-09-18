@@ -2,8 +2,76 @@ import { Link, Navigate, useNavigate } from "react-router-dom";
 import Menu from "./menu";
 import Navbar from "./nav";
 import { ToastContainer } from "react-toastify";
+import { useEffect, useState } from "react";
+import { getBaseUrl } from "./comman";
+import axios from "axios";
+import { Showerror, Showmessage } from "./message";
 
 export default function Adminadproduct() {
+
+  let [category, setCategory] = useState([])
+  let [items,setItems] = useState([])
+  let facthcategory = function () {
+    if (items.length === 0) {
+
+      let apiAdress = getBaseUrl() + 'category.php'
+      axios({
+        method: 'get',
+        responseType: 'json',
+        url: apiAdress
+      }).then((response) => {
+        console.log(response.data);
+        let error = response.data[0]['error']
+
+        if (error !== 'no') {
+          Showerror(error)
+        }
+        else {
+          let total = response.data[1]['total']
+          if (total === 0) {
+            Showerror('Category not found')
+          }
+          else {
+            response.data.splice(0, 1)
+            console.log(response.data)
+            setItems(response.data)
+            Showmessage('Product add')
+          }
+        }
+      }).catch((error) => {
+
+      })
+    }
+  }
+
+   let addProduct = function () {
+     let apiadrress = getBaseUrl() + 'insert_product.php'
+     axios({
+       method: 'post',
+       url: apiadrress,
+       responseType:'json'
+     }).then((response) =>{
+       console.log(response.data)
+       let error = response.data[0]['error']
+       if(error !== 'no')
+       {
+          Showmessage(error)
+         }
+       else{
+        let success = response.data[1]['success']
+        let message = response.data[2]['message']
+
+        // continue tomorow
+ 
+       }
+ 
+     }).catch((error) => {
+       if(error.code === 'ERR_NETWORK')
+         Showerror()
+ 
+     })
+   } 
+  useEffect(() => { facthcategory([]) })
   return (<div id="wrapper">
     {/* Sidebar */}
     <Menu />
@@ -28,15 +96,20 @@ export default function Adminadproduct() {
                   </Link>
                 </div>
                 <div className="card-body">
-                  <form>
+                  <form method="post" onSubmit={addProduct}>
                     <div className="row mb-3">
                       <div className="col-md-4">
                         <label htmlFor="category" className="form-label">Category</label> <br />
-                        <select id="category" className="form-select" required>
+                        <select
+                          id="category"
+                          value={category}
+                          className="form-select"
+                          onChange={(e) => setCategory(e.target.value)}
+                          required>
                           <option selected>Choose...</option>
-                          <option value={1}>Category 1</option>
-                          <option value={2}>Category 2</option>
-                          <option value={3}>Category 3</option>
+                          {items.map((row) => <option key={row['id']} value={row['id']}>
+                            {row['title']}
+                          </option>)}
                         </select>
                       </div>
                       <div className="col-md-4">
