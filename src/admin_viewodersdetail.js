@@ -7,93 +7,48 @@ import axios from "axios";
 import { Showerror, Showmessage } from "./message";
 import { ToastContainer } from "react-toastify";
 
-// view oderdetails pandding
-// https://theeasylearnacademy.com/shop/ws/orders.php?id=20   
+
 export default function Adminviewoderdetails() {
+   // useParmas 
+    let {userid} = useParams()
+  let [oders, setOders] = useState([]) // create the stat variable to store data
 
-  let { orderid } = useParams();    // useParmas method
-  let [Orders, setOder] = useState([])    // state variable create for store values
- 
   useEffect(() => {
-     let oderdetails = function ()
-  {
-    let apiaddress = getBaseUrl() + 'order_details.phpid=' + orderid;
-    axios({
-      url:apiaddress,
-      method:"get",
-      responseType:'json'
-    }).then((response) =>{
-
-      console.log(response.data)
-
-    }).catch((error) =>
-    {
-
-    })
-  }
-    if (Orders.length === 0) {
-      let apiaddress = getBaseUrl() + 'orders.php?id=' + orderid;
+    if (oders.length === 0) {
+      let apiAdress = getBaseUrl() + 'orders.php?id='  + userid;
       axios({
         method: 'get',
         responseType: 'json',
-      }).then((response) => {
-        console.log(response.data)
-      }).catch((error) => {
-        if (error.code === 'ERR_NETWORK')
-          console.log(error.code)
-      })
-
-
-      axios({
-        method: 'get',
-        responseType: 'json',
-        url: apiaddress
-
-        ///axios.get(apiaddressdetails)
-
+        url: apiAdress
       }).then((response) => {
         console.log(response.data);
-
-        let error = response.data['0']['error']
-        if (error != 'no') {
-
-          Showmessage(error)
+        let error = response.data[0]['error']
+        if (error !== 'no') {
+          Showerror(error)
         }
-
-        // api oders
-        /* [{"error":"no"},
-       [{"error":"no"},{"total":1},
-       {"billdate":"27-11-2024",
-       "orderstatus":"5","id":"20",
-       "fullname":"jenil gabani",
-       "address1":"bhavangar","address2":
-       "surat","city":"surat","pincode":"undefi",
-       "amount":"800","mobile":"9054228044",
-       "remarks":"100","paymentmode":"1","paymentstat */
-
         else {
           let total = response.data[1]['total']
           if (total === 0) {
-
-            console.log('Oder not Found')
-            Showmessage(total)
+            Showmessage('Oder is not Define')
           }
-
           else {
-            response.data.splice(0, 2)
+            response.data.splice(0, 2) // when totol is 0 < then remove two object in array
+            setOders(response.data[0])
             console.log(response.data);
-            setOder(response.data[0])
-            Showmessage('oder hear')
+            Showmessage('Oder Details Hear')
           }
         }
+
       }).catch((error) => {
-        if (error.code === 'ERR_NETWORK')
+        if (error.code === 'ERR_NETWORK') {
           Showerror()
+        }
 
       })
 
     }
-  }, [orderid]);
+  })
+
   return (<div id="wrapper">
     {/* Sidebar */}
     <Menu />
@@ -125,21 +80,22 @@ export default function Adminviewoderdetails() {
                     <tbody>
                       <tr>
                         <td width="25%">Name</td>
-                        <td width="25%">{Orders['fullname']}</td>
+                        <td width="25%">{oders['fullname']}</td>
                         <td width="25%">Date</td>
-                        <td width="25%">{Orders['billdate']}</td>
+                        <td width="25%">Fri 09-08-2024</td>
                       </tr>
                       <tr>
                         <td>Address</td>
                         <td>
-                          {Orders['address1']} <br />
-                          {Orders['addredd2']}</td>
+                          eva surbhi, opp akshwarwadi <br />
+                          Waghwadi road, bhavnagar
+                        </td>
                         <td>Bill No</td>
-                        <td>{Orders['']}</td>
+                        <td>125</td>
                       </tr>
                       <tr>
                         <td>Pincode</td>
-                        <td>{Orders['pincode']}</td>
+                        <td>364001</td>
                         <td>Delivery Status</td>
                         <td>
                           <form action>
@@ -156,16 +112,17 @@ export default function Adminviewoderdetails() {
                       </tr>
                       <tr>
                         <td>Mobile</td>
-                        <td>{Orders['mobile']}</td>
+                        <td>1234567890</td>
                         <td>Payment Status</td>
-                        <td>{Orders['paymentstat']}</td>
+                        <td>Online</td>
                       </tr>
                       <tr>
                         <td colSpan={1}>Remarks</td>
-                        <td colSpan={3}>{Orders['remarks ']}</td>
+                        <td colSpan={3}>Lorem ipsum dolor sit amet consectetur adipisicing elit. Illo possimus maxime debitis! Atque doloribus laborum similique officia deleniti delectus velit, et consequatur provident quas, ex sequi necessitatibus a tenetur? Culpa.</td>
                       </tr>
                     </tbody>
                   </table>
+
                   <hr />
                   <table className="table table-sm table-striped table-bordered">
                     <thead>
