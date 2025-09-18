@@ -7,12 +7,6 @@ import { Showerror, Showmessage } from "./message";
 import { ToastContainer } from "react-toastify";
 import { Link } from "react-router-dom";
 
-   /*  <th>id</th>
-                        <th>Date</th>
-                        <th>Amount</th>
-                        <th>Delivery</th>
-                        <th>Order Status</th>
-                        <th>View Detail</th> */
 export default function Adminoders() {
   let display = function (user) {
     return (<tr>

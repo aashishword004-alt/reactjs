@@ -19,7 +19,7 @@ export default function Adminuser() {
       <td>Fri 09-08-2024</td>
      {
        
-     <td><Link className="btn btn-primary" to={'/admin_viewodersdetail/' + user['id']}>View</Link></td>
+     <td><a className="btn btn-primary" href="#">View</a></td>
      }
 
     </tr>)
