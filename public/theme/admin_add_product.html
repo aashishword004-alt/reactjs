@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -25,7 +26,7 @@
             <!-- Sidebar - Brand -->
             <a class="sidebar-brand d-flex align-items-center justify-content-center" href="index.html">
                 <img src="img/tiny.png" alt="">
-                <div class="sidebar-brand-text">Online shop <br/> Admin</div>
+                <div class="sidebar-brand-text">Online shop <br /> Admin</div>
             </a>
 
             <!-- Divider -->
@@ -84,18 +85,18 @@
                         <i class="fa fa-bars"></i>
                     </button>
 
-                   
+
 
                     <!-- Topbar Navbar -->
                     <ul class="navbar-nav ml-auto">
 
                         <!-- Nav Item - Search Dropdown (Visible Only XS) -->
                         <li class="nav-item dropdown no-arrow d-sm-none">
-                          
-                           
+
+
                         </li>
 
-                      
+
 
                         <div class="topbar-divider d-none d-sm-block"></div>
 
@@ -104,10 +105,9 @@
                             <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
                                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 <span class="mr-2 d-none d-lg-inline text-gray-600 small">Administrator</span>
-                                <img class="img-profile rounded-circle"
-                                    src="img/undraw_profile.svg">
+                                <img class="img-profile rounded-circle" src="img/undraw_profile.svg">
                             </a>
-                          
+
                         </li>
 
                     </ul>
@@ -121,80 +121,89 @@
                         <div class="col-12">
                             <div class="card shadow mb-4">
                                 <div class="card-header py-3 d-flex justify-content-between">
-                            <h5 class="m-0 font-weight-bold text-primary">Products (add)</h5>
+                                    <h5 class="m-0 font-weight-bold text-primary">Products (add)</h5>
                                     <a href="admin_product.html" class="btn btn-primary btn-sm">back
                                     </a>
                                 </div>
                                 <div class="card-body">
-                                        <form>
-                                            <div class="row mb-3">
-                                                <div class="col-md-4">
-                                                    <label for="category" class="form-label">Category</label> <br>
-                                                    <select id="category" class="form-select" required>
-                                                        <option selected>Choose...</option>
-                                                        <option value="1">Category 1</option>
-                                                        <option value="2">Category 2</option>
-                                                        <option value="3">Category 3</option>
-                                                    </select>
+                                    <form>
+                                        <div class="row mb-3">
+                                            <div class="col-md-4">
+                                                <label for="category" class="form-label">Category</label> <br>
+                                                <select id="category" class="form-select" required>
+                                                    <option selected>Choose...</option>
+                                                    <option value="1">Category 1</option>
+                                                    <option value="2">Category 2</option>
+                                                    <option value="3">Category 3</option>
+                                                </select>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <label for="title" class="form-label">Title</label>
+                                                <input type="text" class="form-control" id="title"
+                                                    placeholder="Enter title" required>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <label for="price" class="form-label">Price</label>
+                                                <input type="number" class="form-control" id="price"
+                                                    placeholder="Enter price" required>
+                                            </div>
+                                        </div>
+                                        <div class="row mb-3">
+                                            <div class="col-12">
+                                                <label for="details" class="form-label">Details</label>
+                                                <textarea class="form-control" id="details" rows="3"
+                                                    placeholder="Enter details" required></textarea>
+                                            </div>
+                                        </div>
+                                        <div class="row mb-3">
+                                            <div class="col-md-4">
+                                                <label for="stock" class="form-label">Stock</label>
+                                                <input type="number" class="form-control" id="stock"
+                                                    placeholder="Enter stock quantity" required>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <label for="weight" class="form-label">Weight</label>
+                                                <input type="number" class="form-control" id="weight"
+                                                    placeholder="Enter weight" required>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <label for="size" class="form-label">Size</label>
+                                                <input type="text" class="form-control" id="size"
+                                                    placeholder="Enter size" required>
+                                            </div>
+                                        </div>
+                                        <div class="row mb-3">
+                                            <div class="col-md-4">
+                                                <label for="photo" class="form-label">Photo</label>
+                                                <input type="file" class="form-control" id="photo" required
+                                                    accept="image/*" />
+                                            </div>
+                                            <div class="col-md-4">
+                                                <label class="form-label">Is Live</label>
+                                                <div class="form-check">
+                                                    <input class="form-check-input" type="radio" name="islive"
+                                                        id="isLiveYes" value="1" required>
+                                                    <label class="form-check-label" for="isLiveYes">Yes</label>
                                                 </div>
-                                                <div class="col-md-4">
-                                                    <label for="title" class="form-label">Title</label>
-                                                    <input type="text" class="form-control" id="title" placeholder="Enter title" required >
-                                                </div>
-                                                <div class="col-md-4">
-                                                    <label for="price" class="form-label">Price</label>
-                                                    <input type="number" class="form-control" id="price" placeholder="Enter price" required>
+                                                <div class="form-check">
+                                                    <input class="form-check-input" type="radio" name="islive"
+                                                        id="isLiveNo" value="0" required />
+                                                    <label class="form-check-label" for="isLiveNo">No</label>
                                                 </div>
                                             </div>
-                                            <div class="row mb-3">
-                                                <div class="col-12">
-                                                    <label for="details" class="form-label">Details</label>
-                                                    <textarea class="form-control" id="details" rows="3" placeholder="Enter details" required></textarea>
-                                                </div>
+                                            <div class="col-md-4">
+                                                <button type="submit" class="btn btn-primary w-100 mb-2">Save</button>
+
+                                                <button type="reset" class="btn btn-light w-100">Clear all</button>
                                             </div>
-                                            <div class="row mb-3">
-                                                <div class="col-md-4">
-                                                    <label for="stock" class="form-label">Stock</label>
-                                                    <input type="number" class="form-control" id="stock" placeholder="Enter stock quantity" required>
-                                                </div>
-                                                <div class="col-md-4">
-                                                    <label for="weight" class="form-label">Weight</label>
-                                                    <input type="number" class="form-control" id="weight" placeholder="Enter weight" required>
-                                                </div>
-                                                <div class="col-md-4">
-                                                    <label for="size" class="form-label">Size</label>
-                                                    <input type="text" class="form-control" id="size" placeholder="Enter size" required>
-                                                </div>
-                                            </div>
-                                            <div class="row mb-3">
-                                                <div class="col-md-4">
-                                                    <label for="photo" class="form-label">Photo</label>
-                                                    <input type="file" class="form-control" id="photo" required accept="image/*" />
-                                                </div>
-                                                <div class="col-md-4">
-                                                    <label class="form-label">Is Live</label>
-                                                    <div class="form-check">
-                                                        <input class="form-check-input" type="radio" name="islive" id="isLiveYes" value="1" required>
-                                                        <label class="form-check-label" for="isLiveYes">Yes</label>
-                                                    </div>
-                                                    <div class="form-check">
-                                                        <input class="form-check-input" type="radio" name="islive" id="isLiveNo" value="0" required />
-                                                        <label class="form-check-label" for="isLiveNo">No</label>
-                                                    </div>
-                                                </div>
-                                                <div class="col-md-4">
-                                                    <button type="submit" class="btn btn-primary w-100 mb-2">Save</button>
-                                                    
-                                                    <button type="reset" class="btn btn-light w-100">Clear all</button>
-                                                </div>
-                                            </div>
-                                        </form>
+                                        </div>
+                                    </form>
                                 </div>
                             </div>
 
                         </div>
                     </div>
-                  
+
                 </div>
                 <!-- /.container-fluid -->
 
