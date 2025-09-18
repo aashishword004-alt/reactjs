@@ -8,41 +8,42 @@ import { Showerror, Showmessage } from "./message";
 import { getBaseUrl, getImageUrl } from "./comman";
 export default function Admincategory() {
   let [iteams, setItams] = useState([]);
-  let deleteCategory = function (categoryId)
-  {
-  let apiaddres = getBaseUrl() +  "delete_category.php?id=" + categoryId;
-  console.log(apiaddres);
-  axios({
-    method:'get',
-    responseType:'json',
-    url:apiaddres
-  }).then((response) => {
-    console.log(response.data)
-    let error = response.data[0]['error']
-    if(error !== 'no')
-    {
-      Showerror(error)
-    }
-    else{
-      let message = response.data[1]['message']
-      // remove data from state array
-      // fliter the state array
-      let filetCategory = iteams.filter((current) =>
-      {
-        if(current.id !== categoryId)
-          return  current;
-      });
-      console.log(filetCategory);
-      setItams(filetCategory);
-      Showmessage(message);
-    }
-  }).catch((error) =>
-  {
-    if(error.code === 'ERR_NETWORK'){
-      console.log(error.code)
+  let deleteCategory = function (categoryId) {
+    let apiaddres = getBaseUrl() + "delete_category.php?id=" + categoryId;
+    console.log(apiaddres);
+    axios({
+      method: 'get',
+      responseType: 'json',
+      url: apiaddres
+    }).then((response) => {
+      console.log(response.data)
+      let error = response.data[0]['error']
+      if (error !== 'no') {
+        Showerror(error)
+      }
+      else {
+        let message = response.data[1]['message']
+        // remove data from state array
+        // fliter the state array
+        let filetCategory = iteams.filter((current) => {
+          if (current.id !== categoryId)
+          {
 
-    }
-  })
+            return current;
+          }
+            
+        });
+         console.log(filetCategory);
+          setItams(filetCategory);
+          Showmessage(message);
+
+      }
+    }).catch((error) => {
+      if (error.code === 'ERR_NETWORK') {
+        console.log(error.code)
+
+      }
+    })
   }
   let display = function (item) {
     return (<tr>
@@ -54,22 +55,21 @@ export default function Admincategory() {
       <td>{(item.islive === '1') ? "Yes" : "No"}</td>
       <td width="15%">
         <Link to="/admin_editcategory" className="btn btn-warning btn-sm">Edit</Link>
-        <Link onClick={(event) => deleteCategory(iteams.id)} className="btn btn-danger btn-sm">Delete</Link>
+        <Link onClick={(event) => deleteCategory(item.id)} className="btn btn-danger btn-sm">Delete</Link>
       </td>
     </tr>)
   }
   useEffect(() => {
 
-    if(iteams.length === 0)
-    {
-      
-      let aipAdress = getBaseUrl()+'category.php';
+    if (iteams.length === 0) {
+
+      let aipAdress = getBaseUrl() + 'category.php';
       axios(
         {
           method: 'get',
           url: aipAdress,
           responseType: 'json'
-          
+
         }).then((respone) => {
           console.log(respone.data);
           /*  [{"error":"no"},
@@ -85,32 +85,31 @@ export default function Admincategory() {
           else {
             let total = respone.data[1]['total'];
             console.log(total);
-            if (total === 0) 
-              {
+            if (total === 0) {
               Showmessage('Category not Found')
             }
             else {
               // the condition is true delete two object 
-              
+
               respone.data.splice(0, 2);
-            console.log(respone.data);
-            setItams(respone.data);
-            Showmessage('You Are Online')
-            
+              console.log(respone.data);
+              setItams(respone.data);
+              Showmessage('You Are Online')
+
+            }
           }
-        }
-      }).catch((error) => {
-        if (error.code === 'ERR_NETWORK')
-        console.log(error.code);
-        Showerror()
-        
-        
-        
-        
-      }); 
-    }  
-    }, [])
-    return (<div id="wrapper">
+        }).catch((error) => {
+          if (error.code === 'ERR_NETWORK')
+            console.log(error.code);
+          Showerror()
+
+
+
+
+        });
+    }
+  }, [])
+  return (<div id="wrapper">
     {/* Sidebar */}
     <Menu />
     {/* End of Sidebar */}
