@@ -1,4 +1,4 @@
-import { Link, Navigate, useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Menu from "./menu";
 import Navbar from "./nav";
 import { ToastContainer } from "react-toastify";
@@ -8,9 +8,20 @@ import axios from "axios";
 import { Showerror, Showmessage } from "./message";
 
 export default function Adminadproduct() {
+  // state variabls 
+  let [items, setItems] = useState([])
+  const [category, setCategory] = useState('')
+  const [title, setTitle] = useState("");
+  const [price, setPrice] = useState("");
+  const [details, setDetails] = useState("");
+  const [stock, setStock] = useState("");
+  const [weight, setWeight] = useState("");
+  const [size, setSize] = useState("");
+  const [photo, setPhoto] = useState(null);
+  const [isLive, setIsLive] = useState("");
+  const navigate = useNavigate() //hook
 
-  let [category, setCategory] = useState([])
-  let [items,setItems] = useState([])
+
   let facthcategory = function () {
     if (items.length === 0) {
 
@@ -35,43 +46,74 @@ export default function Adminadproduct() {
             response.data.splice(0, 1)
             console.log(response.data)
             setItems(response.data)
-            Showmessage('Product add')
+            Showmessage('Product add Hear')
           }
         }
       }).catch((error) => {
+        if (error.code === 'ERR_NETWORK')
+          Showerror()
 
       })
     }
   }
 
-   let addProduct = function () {
-     let apiadrress = getBaseUrl() + 'insert_product.php'
-     axios({
-       method: 'post',
-       url: apiadrress,
-       responseType:'json'
-     }).then((response) =>{
-       console.log(response.data)
-       let error = response.data[0]['error']
-       if(error !== 'no')
-       {
-          Showmessage(error)
-         }
-       else{
-        let success = response.data[1]['success']
-        let message = response.data[2]['message']
+  let addProduct = function (e) {
+    console.log(photo, isLive, weight, stock, title, category, details, size)
+    // e.preventdefualt();
+    e.preventDefault();
+
+    let apiadrress = getBaseUrl() + 'insert_product.php';
+    let form = new FormData();
+    form.append('category', category);
+    form.append('title', title);
+    form.append('price', price);
+    form.append('details', details);
+    form.append('stock', stock);
+    form.append('weight', weight);
+    form.append('size', size);
+    form.append('photo', photo);
+    form.append('islive', isLive);
+    axios({
+      method: 'post',
+      url: apiadrress,
+      responseType: 'json',
+      data: form
+    }).then((response) => {
+      console.log(response.data)
+      let error = response.data[0]['error']
+      if (error !== 'no') {
+        Showerror(error);
+        console.log(error);
+      }
+      else {
+        let success = response.data[1]['success'];
+        let message = response.data[2]['message'];
+
+        if (success === 'no') {
+          Showerror(message);
+          console.log(message);
+        }
+        else {
+          Showmessage(message);
+          // puse for 2 mini
+          setTimeout(() => {
+            navigate('/AdminProduct')
+          }, 2000);
+        }
 
         // continue tomorow
- 
-       }
- 
-     }).catch((error) => {
-       if(error.code === 'ERR_NETWORK')
-         Showerror()
- 
-     })
-   } 
-  useEffect(() => { facthcategory([]) })
+
+      }
+
+    }).catch((error) => {
+      if (error.code === 'ERR_NETWORK') {
+
+        Showerror()
+      }
+
+    });
+  }
+  useEffect(() => { facthcategory() }, [])
   return (<div id="wrapper">
     {/* Sidebar */}
     <Menu />
@@ -106,7 +148,7 @@ export default function Adminadproduct() {
                           className="form-select"
                           onChange={(e) => setCategory(e.target.value)}
                           required>
-                          <option selected>Choose...</option>
+                          <option value=''>Choose...</option>
                           {items.map((row) => <option key={row['id']} value={row['id']}>
                             {row['title']}
                           </option>)}
@@ -114,52 +156,115 @@ export default function Adminadproduct() {
                       </div>
                       <div className="col-md-4">
                         <label htmlFor="title" className="form-label">Title</label>
-                        <input type="text" className="form-control" id="title" placeholder="Enter title" required />
+                        <input type="text"
+                          className="form-control"
+                          value={title}
+                          id="title"
+                          onChange={(e) => setTitle(e.target.value)}
+                          placeholder="Enter title" required />
                       </div>
                       <div className="col-md-4">
                         <label htmlFor="price" className="form-label">Price</label>
-                        <input type="number" className="form-control" id="price" placeholder="Enter price" required />
+                        <input type="number"
+                          className="form-control"
+                          id="price"
+                          value={price}
+                          onChange={(e) => setPrice(e.target.value)}
+                          placeholder="Enter price" required />
                       </div>
                     </div>
                     <div className="row mb-3">
                       <div className="col-12">
                         <label htmlFor="details" className="form-label">Details</label>
-                        <textarea className="form-control" id="details" rows={3} placeholder="Enter details" required defaultValue={""} />
+                        <textarea
+                          className="form-control"
+                          id="details"
+                          rows={3}
+                          value={details}
+                          onChange={(e) => setDetails(e.target.value)}
+                          placeholder="Enter details" required />
                       </div>
                     </div>
                     <div className="row mb-3">
                       <div className="col-md-4">
                         <label htmlFor="stock" className="form-label">Stock</label>
-                        <input type="number" className="form-control" id="stock" placeholder="Enter stock quantity" required />
+                        <input
+                          type="number"
+                          className="form-control"
+                          id="stock"
+                          value={stock}
+                          onChange={(e) => setStock(e.target.value)}
+                          placeholder="Enter stock quantity" required />
                       </div>
                       <div className="col-md-4">
                         <label htmlFor="weight" className="form-label">Weight</label>
-                        <input type="number" className="form-control" id="weight" placeholder="Enter weight" required />
+                        <input type="number"
+                          className="form-control"
+                          value={weight}
+                          onChange={(e) => setWeight(e.target.value)}
+                          id="weight"
+                          placeholder="Enter weight" required />
                       </div>
                       <div className="col-md-4">
                         <label htmlFor="size" className="form-label">Size</label>
-                        <input type="text" className="form-control" id="size" placeholder="Enter size" required />
+                        <input type="text"
+                          className="form-control"
+                          value={size}
+                          onChange={(e) => setSize(e.target.value)}
+                          id="size"
+                          placeholder="Enter size" required />
                       </div>
                     </div>
                     <div className="row mb-3">
                       <div className="col-md-4">
                         <label htmlFor="photo" className="form-label">Photo</label>
-                        <input type="file" className="form-control" id="photo" required accept="image/*" />
+                        <input type="file"
+                          className="form-control"
+                          id="photo"
+                          required
+                          onChange={(e) => setPhoto(e.target.files[0])}
+                          accept="image/*" />
                       </div>
                       <div className="col-md-4">
                         <label className="form-label">Is Live</label>
                         <div className="form-check">
-                          <input className="form-check-input" type="radio" name="islive" id="isLiveYes" defaultValue={1} required />
+                          <input className="form-check-input"
+                            type="radio" name="islive"
+                            id="isLiveYes"
+                            value={1}
+                            onChange={(e) => setIsLive(e.target.value)}
+                            required />
                           <label className="form-check-label" htmlFor="isLiveYes">Yes</label>
                         </div>
                         <div className="form-check">
-                          <input className="form-check-input" type="radio" name="islive" id="isLiveNo" defaultValue={0} required />
+                          <input className="form-check-input"
+                            type="radio"
+                            name="islive"
+                            id="isLiveNo"
+                            value={0}
+                            onChange={(e) => setIsLive(e.target.value)}
+                            required />
                           <label className="form-check-label" htmlFor="isLiveNo">No</label>
                         </div>
                       </div>
                       <div className="col-md-4">
                         <button type="submit" className="btn btn-primary w-100 mb-2">Save</button>
-                        <button type="reset" className="btn btn-light w-100">Clear all</button>
+                        <button
+                          type="reset"
+                          className="btn btn-light w-100"
+                          onClick={() => {
+                            setCategory('');
+                            setTitle('');
+                            setPrice('');
+                            setDetails('');
+                            setStock('');
+                            setWeight('');
+                            setSize('');
+                            setPhoto(null);
+                            setIsLive('');
+                          }
+                          }
+                        > Clear all</button>
                       </div>
                     </div>
                   </form>
@@ -171,8 +276,8 @@ export default function Adminadproduct() {
         {/* /.container-fluid */}
       </div>
       {/* End of Main Content */}
-    </div>
+    </div >
     {/* End of Content Wrapper */}
-  </div>
+  </div >
   )
 }
