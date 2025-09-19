@@ -8,15 +8,46 @@ import { ToastContainer } from "react-toastify";
 import { getBaseUrl, getImageUrl } from "./comman";
 
 export default function AdminProduct() {
+  let [itams, setItams] = useState([]);
+
+  let deleteProduct = function (productid) {
+      let apiaddress = getBaseUrl() + `delete_product.php?id=${productid}`;
+      axios({
+        method: 'get',
+        responseType: 'json',
+        url: apiaddress
+      }).then((response) => {
+        console.log(response.data);
+        let error = response.data[0]['error']
+        if (error != 'no') {
+          Showerror(error)
+          // if no error else block run
+        }
+        else {
+          let message = response.data[1]['message']
+          Showmessage(message);
+          let Fliterproduct = itams.filter((current) => {
+            if (current.id !== productid)
+              return current;
+          });
+          setItams(Fliterproduct);
+        }
+      }).catch((error) => {
+        if (error.code === 'ERR_NETWORK') {
+          console.log(error);
+        }
+      });
+    
+  }
 
   let display = function (item) {
     return (<tr>
       <td>{item.id}</td>
       <td>
-      {  // add id into link 
-      }
-        <Link to={'/admin_viewproduct/' + item['id']} target="_blank">         
-         {item.category} <br />
+        {  // add id into link 
+        }
+        <Link to={'/admin_viewproduct/' + item['id']} target="_blank">
+          {item.category} <br />
           {item.title}
         </Link>
       </td>
@@ -27,19 +58,18 @@ export default function AdminProduct() {
       <td>{item.stock}</td>
       <td>{(item.islive === '1' ? 'Yes' : 'No')}</td>
       <td>
-        <Link to="/admin_editproduct" className="btn btn-warning btn-sm btn-block mb-1">Edit</Link>
-        <a href="#" className="btn btn-danger btn-sm btn-block">Delete</a>
+        <Link to="/admin_editproduct/1" className="btn btn-warning btn-sm btn-block mb-1">Edit</Link>
+        <Link onClick={() =>deleteProduct(item['id'])} className="btn btn-danger btn-sm btn-block">Delete</Link>
       </td>
     </tr>);
   }
-  let [itams, setItams] = useState([])
 
   // use useeffact to calling api 
   useEffect(() => {
     if (itams.length === 0) {
 
 
-      let aipAdress =  getBaseUrl ()+ 'product.php'; // api addres
+      let aipAdress = getBaseUrl() + 'product.php'; // api addres
       axios({
         method: 'get',               // method and typ
         responseType: 'json',
