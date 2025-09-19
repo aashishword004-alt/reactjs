@@ -54,7 +54,7 @@ export default function Admincategory() {
       </td>
       <td>{(item.islive === '1') ? "Yes" : "No"}</td>
       <td width="15%">
-        <Link to="/admin_editcategory" className="btn btn-warning btn-sm">Edit</Link>
+        <Link to="/admin_editcategory/1" className="btn btn-warning btn-sm">Edit</Link>
         <Link onClick={(event) => deleteCategory(item.id)} className="btn btn-danger btn-sm">Delete</Link>
       </td>
     </tr>)

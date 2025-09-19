@@ -9,7 +9,7 @@ import { Showerror, Showmessage } from "./message";
 
 export default function Adminadproduct() {
   // state variabls 
-  let [items, setItems] = useState([])
+  const [items, setItems] = useState([])
   const [category, setCategory] = useState('')
   const [title, setTitle] = useState("");
   const [price, setPrice] = useState("");
@@ -18,7 +18,7 @@ export default function Adminadproduct() {
   const [weight, setWeight] = useState("");
   const [size, setSize] = useState("");
   const [photo, setPhoto] = useState(null);
-  const [isLive, setIsLive] = useState("");
+  const [isLive, setIsLive] = useState("1");
   const navigate = useNavigate() //hook
 
 
@@ -43,17 +43,17 @@ export default function Adminadproduct() {
             Showerror('Category not found')
           }
           else {
-            response.data.splice(0, 1)
+            response.data.splice(0, 2)
             console.log(response.data)
             setItems(response.data)
-            Showmessage('Product add Hear')
+            // Showmessage('Product add Hear')
           }
         }
       }).catch((error) => {
         if (error.code === 'ERR_NETWORK')
           Showerror()
 
-      })
+      });
     }
   }
 
@@ -64,15 +64,15 @@ export default function Adminadproduct() {
 
     let apiadrress = getBaseUrl() + 'insert_product.php';
     let form = new FormData();
-    form.append('category', category);
     form.append('title', title);
+    form.append('categoryid', category);
     form.append('price', price);
-    form.append('details', details);
     form.append('stock', stock);
     form.append('weight', weight);
     form.append('size', size);
-    form.append('photo', photo);
+    form.append('details', details);
     form.append('islive', isLive);
+    form.append('photo', photo);
     axios({
       method: 'post',
       url: apiadrress,
@@ -149,9 +149,10 @@ export default function Adminadproduct() {
                           onChange={(e) => setCategory(e.target.value)}
                           required>
                           <option value=''>Choose...</option>
-                          {items.map((row) => <option key={row['id']} value={row['id']}>
+                          {items.map((row) => (<option key={row['id']} value={row['id']}>
                             {row['title']}
-                          </option>)}
+                          </option>
+                          ))}
                         </select>
                       </div>
                       <div className="col-md-4">
@@ -231,7 +232,7 @@ export default function Adminadproduct() {
                           <input className="form-check-input"
                             type="radio" name="islive"
                             id="isLiveYes"
-                            value={1}
+                            value="1"
                             onChange={(e) => setIsLive(e.target.value)}
                             required />
                           <label className="form-check-label" htmlFor="isLiveYes">Yes</label>
@@ -241,7 +242,7 @@ export default function Adminadproduct() {
                             type="radio"
                             name="islive"
                             id="isLiveNo"
-                            value={0}
+                            value="0"
                             onChange={(e) => setIsLive(e.target.value)}
                             required />
                           <label className="form-check-label" htmlFor="isLiveNo">No</label>
@@ -261,7 +262,6 @@ export default function Adminadproduct() {
                             setWeight('');
                             setSize('');
                             setPhoto(null);
-                            setIsLive('');
                           }
                           }
                         > Clear all</button>

@@ -31,7 +31,7 @@ function Shop() {
         <Route path='/admin_category' element={<Admincategory/>} />
         <Route path='/admin_changepassword' element={<Adminchangepassword/>} />
         <Route path='/admin_dashbord' element={<Admindashbord/>} />
-        <Route path='/admin_editcategory' element={<Admineditecategory/>} />
+        <Route path='/admin_editcategory/1' element={<Admineditecategory/>} />
         <Route path='/admin_editproduct' element={<Adminediteproduct/>} />
         <Route path='/admin_forgotepassword' element={<Adminforgotepassword/>} />
         <Route path='/admin_oder/' element={<Adminoders/>} />

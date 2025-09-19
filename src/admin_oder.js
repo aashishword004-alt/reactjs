@@ -39,7 +39,11 @@ export default function Adminoders() {
         /*
         0 [{"error":"no"},
         1 {"total":31},
-        2  {"billdate":"05-09-2025","orderstatus":"1","id":"33","fullname":"","address1":"","address2":"","city":"","pincode":"","amount":"52000"}, */
+        2  {"billdate":"05-09-2025",
+        "orderstatus":"1","id":"33",
+        "fullname":"","address1":"",
+        "address2":"","city":"",
+        "pincode":"","amount":"52000"}, */
 
         let error = respone.data['0']['error']
         if (error !== 'no')
