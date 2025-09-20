@@ -1,27 +1,91 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import Menu from "./menu";
 import Navbar from "./nav";
 import { Link, useParams } from "react-router-dom";
-import { getBaseUrl } from "./comman";
+import { getBaseUrl, getImageUrl } from "./comman";
 import axios from "axios";
+import { Showerror, Showmessage } from "./message";
 
 export default function Admineditecategory() {
   // declear id
-  var categoryid = useParams()
-  useEffect(() =>
+  var { categoryid } = useParams()
+  // create variable evry input
+  let [photo, setPhoto] = useState('');
+  let [isLive, setIslive] = useState('');
+  let [title, setTitle] = useState('');
+  let [newphoto, setNewPhoto] = useState('');
+  let [isDataFached, setIsdatafache] = useState(false)
+  let updateData = function (e)
   {
-    let apiaddress = getBaseUrl() + `category.php?id=${categoryid}`;
+    let apiaddres = getBaseUrl() + ' "update_category.php";';
+    let form = new FormData();
+    form.append();
+    form.append();
+    form.append();
+    form.append();
     axios({
-      responseType:'json',
-      url:apiaddress,
-      method:'get'
+       method:'post',
+       responseType:'json',
+       url:apiaddres
+       }).then((response) => {
+        console.log(response.data);
 
-    }).then((response) =>{
-       console.log(response.data);
-       
-    }).catch((error) =>{
+       }).catch((error) =>{
+        if(error.code === 'ERR_NETWORK')
+        {
+          Showerror(error);
+        }
+       })
+       e.prevenDefualt()
+  }
+  useEffect(() => {
+    if (isDataFached === false) {
+      let apiaddress = getBaseUrl() + `category.php?id=${categoryid}`;
+     // console.log(apiaddress);
+      axios(
+        {
+          method: 'get',
+          url: apiaddress,
+          responseType: 'json'
 
-    });
+        }).then((respone) => {
+          console.log(respone.data);
+          /*  [{"error":"no"},
+          {"total":6},
+          {"id":"1","title":"laptop","photo":"laptop.jpg","islive":"1","isdeleted":"0"} */
+          let error = respone.data[0]['error'];
+          console.log(error);
+          if (error !== 'no') {
+            alert(error);
+          }
+          // no error than run else block 
+          // and delete 2 object of api and show data after delet
+          else {
+            let total = respone.data[1]['total'];
+            console.log(total);
+            if (total === 0) {
+              Showmessage('Category not Found');
+            }
+            else {
+              // the condition is true delete two object 
+
+              respone.data.splice(0, 2);
+              console.log(respone.data);
+              setIslive(respone.data[0]['islive']);
+              setPhoto(respone.data[0]['photo']);
+              setTitle(respone.data[0]['title']);
+              setIsdatafache(true)
+
+              Showmessage('You Are Online');
+
+            }
+          }
+        }).catch((error) => {
+          if (error.code === 'ERR_NETWORK')
+            console.log(error.code);
+          Showerror()
+        });
+    }
   });
   return (<div>
     <div id="wrapper">
@@ -42,20 +106,31 @@ export default function Admineditecategory() {
                 <Link to="/admin_category" className="btn btn-primary">Back</Link>
               </div>
               <div className="card-body">
-                <form action method="post">
+                <form action method="post" onSubmit={updateData}>
                   <div className="row">
                     <div className="col-lg-9">
                       <div className="mb-3">
                         <label htmlFor="title" className="form-label">EditTitle</label>
-                        <input type="text" className="form-control" id="title" required />
+                        <input type="text" value={title} className="form-control" id="title" required />
                       </div>
                       <div className="mb-3">
                         <label htmlFor="photo" className="form-label">Change Photo</label>
                         <input type="file" className="form-control" id="photo" required />
                       </div>
-                      <div className="mb-3">
-                        <label htmlFor="title" className="form-label">Edit Description</label>
-                        <textarea className="form-control" id="description" required defaultValue={"                                    "} />
+                      <span className="my-5 fw-bold">is this category Live?</span> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                      <div className="form-check-inline mb-5">
+                        <input id="yes" name="islive" type="radio"
+                          value={1}
+                          checked={(isLive == '1')}
+                          className="form-check-input" required />
+                        <label htmlFor="yes" className="form-check-label">Yes</label>
+                      </div>
+                      <div className="form-check-inline mb-5">
+                        <input id="no" name="islive" type="radio" className="form-check-input"
+                          value={0}
+                          checked={(isLive == '0')}
+                          required />
+                        <label htmlFor='no' className="form-check-label">No</label>
                       </div>
                       <div className="d-flex justify-content-end">
                         <input type="submit" className="btn btn-primary" defaultValue="Save changes" />&nbsp;
@@ -64,7 +139,7 @@ export default function Admineditecategory() {
                     </div>
                     <div className="col-lg-3">
                       <b>Existing Photo</b>
-                      <img src="http://picsum.photos/200" className="img-fluid" />
+                      <img src={getImageUrl() + 'category/' + photo} className="img-fluid" />
                     </div>
                   </div>
                 </form>
