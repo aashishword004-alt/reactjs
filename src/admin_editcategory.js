@@ -1,12 +1,13 @@
 import { useEffect, useState } from "react";
 import Menu from "./menu";
 import Navbar from "./nav";
-import { Link, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import { getBaseUrl, getImageUrl } from "./comman";
 import axios from "axios";
 import { Showerror, Showmessage } from "./message";
 
 export default function Admineditecategory() {
+  let navigate = useNavigate('')
   // declear id
   var { categoryid } = useParams()
   // create variable evry input
@@ -15,33 +16,53 @@ export default function Admineditecategory() {
   let [title, setTitle] = useState('');
   let [newphoto, setNewPhoto] = useState('');
   let [isDataFached, setIsdatafache] = useState(false)
-  let updateData = function (e)
-  {
-    let apiaddres = getBaseUrl() + ' "update_category.php";';
-    let form = new FormData();
-    form.append();
-    form.append();
-    form.append();
-    form.append();
-    axios({
-       method:'post',
-       responseType:'json',
-       url:apiaddres
-       }).then((response) => {
-        console.log(response.data);
 
-       }).catch((error) =>{
-        if(error.code === 'ERR_NETWORK')
-        {
-          Showerror(error);
+  let updateData = function (e) {
+    let apiaddres = getBaseUrl() + "update_category.php";
+    let form = new FormData();
+    form.append('title', title);
+    form.append('islive', isLive);
+
+    form.append('photo', newphoto);
+    form.append('id', categoryid);
+    console.log(form);
+    axios({
+      method: 'post',
+      responseType: 'json',
+      url: apiaddres,
+      data: form
+    }).then((response) => {
+      console.log(response.data);
+      let error = response.data[0][error];
+      if (error !== 'no') {
+        Showerror();
+
+      }
+      else {
+        let success = response.data[1]['succcess'];
+        let message = response.data[2]['message'];
+        if (success === 'no')
+          Showerror(message);
+        else {
+          Showmessage(message);
+          //display another view
+          setTimeout(() => {
+            navigate("/admin_category");
+          }, 2000);
         }
-       })
-       e.prevenDefualt()
+      }
+    }).catch((error) => {
+      if (error.code === 'ERR_NETWORK') {
+        Showerror(error);
+      }
+    })
+    e.preventDefault();
+    // continue after rest //
   }
   useEffect(() => {
     if (isDataFached === false) {
       let apiaddress = getBaseUrl() + `category.php?id=${categoryid}`;
-     // console.log(apiaddress);
+      // console.log(apiaddress);
       axios(
         {
           method: 'get',
@@ -111,17 +132,24 @@ export default function Admineditecategory() {
                     <div className="col-lg-9">
                       <div className="mb-3">
                         <label htmlFor="title" className="form-label">EditTitle</label>
-                        <input type="text" value={title} className="form-control" id="title" required />
+                        <input type="text" value={title} className="form-control"
+                          onChange={(e) => setTitle(e.target.value)}
+                          id="title" required />
                       </div>
                       <div className="mb-3">
                         <label htmlFor="photo" className="form-label">Change Photo</label>
-                        <input type="file" className="form-control" id="photo" required />
+                        <input type="file"
+                          className="form-control"
+                          accept="image/*"
+                          onChange={(e) => setNewPhoto(e.target.files[0])}
+                          id="photo" required />
                       </div>
                       <span className="my-5 fw-bold">is this category Live?</span> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                       <div className="form-check-inline mb-5">
                         <input id="yes" name="islive" type="radio"
                           value={1}
                           checked={(isLive == '1')}
+                          onChange={(e) => setIslive('1')}
                           className="form-check-input" required />
                         <label htmlFor="yes" className="form-check-label">Yes</label>
                       </div>
@@ -129,6 +157,7 @@ export default function Admineditecategory() {
                         <input id="no" name="islive" type="radio" className="form-check-input"
                           value={0}
                           checked={(isLive == '0')}
+                          onChange={(e) => setIslive('0')}
                           required />
                         <label htmlFor='no' className="form-check-label">No</label>
                       </div>
