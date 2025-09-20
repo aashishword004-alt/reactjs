@@ -5,6 +5,7 @@ import { Link, useNavigate, useParams } from "react-router-dom";
 import { getBaseUrl, getImageUrl } from "./comman";
 import axios from "axios";
 import { Showerror, Showmessage } from "./message";
+import { ToastContainer } from "react-toastify";
 
 export default function Admineditecategory() {
   let navigate = useNavigate('')
@@ -22,7 +23,6 @@ export default function Admineditecategory() {
     let form = new FormData();
     form.append('title', title);
     form.append('islive', isLive);
-
     form.append('photo', newphoto);
     form.append('id', categoryid);
     console.log(form);
@@ -33,29 +33,34 @@ export default function Admineditecategory() {
       data: form
     }).then((response) => {
       console.log(response.data);
-      let error = response.data[0][error];
+      let error = response.data[0]['error'];
       if (error !== 'no') {
-        Showerror();
+        Showerror(error);
 
       }
       else {
-        let success = response.data[1]['succcess'];
+        let success = response.data[1]['success']; // ✅ FIXED
+     //   let success = response.data[1]['success'];
         let message = response.data[2]['message'];
-        if (success === 'no')
-          Showerror(message);
+        if (success == 'no') {
+          Showerror(success);
+          console.log(success);
+        }
         else {
           Showmessage(message);
-          //display another view
+          // navigate use
           setTimeout(() => {
-            navigate("/admin_category");
-          }, 2000);
+            navigate('/admin_category')
+          }, 2000)
+
         }
       }
+
     }).catch((error) => {
       if (error.code === 'ERR_NETWORK') {
         Showerror(error);
       }
-    })
+    });
     e.preventDefault();
     // continue after rest //
   }
@@ -97,7 +102,7 @@ export default function Admineditecategory() {
               setTitle(respone.data[0]['title']);
               setIsdatafache(true)
 
-              Showmessage('You Are Online');
+              Showmessage('Category facth Succesfully');
 
             }
           }
@@ -117,6 +122,7 @@ export default function Admineditecategory() {
           <Navbar />
           {/* End of Topbar */}
           {/* Begin Page Content */}
+          <ToastContainer />
           <div className="container-fluid mt-3">
             {/* Page Heading */}
             <h4 className="text-dark font-weight-bold">Edit - Category Management</h4>
