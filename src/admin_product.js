@@ -58,7 +58,7 @@ export default function AdminProduct() {
       <td>{item.stock}</td>
       <td>{(item.islive === '1' ? 'Yes' : 'No')}</td>
       <td>
-        <Link to="/admin_editproduct/1" className="btn btn-warning btn-sm btn-block mb-1">Edit</Link>
+        <Link to="/admin_editproduct" className="btn btn-warning btn-sm btn-block mb-1">Edit</Link>
         <Link onClick={() =>deleteProduct(item['id'])} className="btn btn-danger btn-sm btn-block">Delete</Link>
       </td>
     </tr>);

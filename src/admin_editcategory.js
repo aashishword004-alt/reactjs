@@ -1,15 +1,28 @@
 import { useEffect } from "react";
 import Menu from "./menu";
 import Navbar from "./nav";
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { getBaseUrl } from "./comman";
+import axios from "axios";
 
 export default function Admineditecategory() {
-  // continue tommorow
+  // declear id
+  var categoryid = useParams()
   useEffect(() =>
   {
-    let apiaddress = getBaseUrl() + 'category.php'
-  })
+    let apiaddress = getBaseUrl() + `category.php?id=${categoryid}`;
+    axios({
+      responseType:'json',
+      url:apiaddress,
+      method:'get'
+
+    }).then((response) =>{
+       console.log(response.data);
+       
+    }).catch((error) =>{
+
+    });
+  });
   return (<div>
     <div id="wrapper">
       {/* Sidebar */}

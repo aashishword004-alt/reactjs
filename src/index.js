@@ -24,23 +24,26 @@ import Four from './404';
 function Shop() {
   return (
     <BrowserRouter>
-    <Routes>
-        <Route path='/' element={<Login/>} />
-        <Route path='/admin_addcategory' element={<Adminaddcategory/>} />
-        <Route path='/admin_addproduct' element={<Adminaddproduct/>} />
-        <Route path='/admin_category' element={<Admincategory/>} />
-        <Route path='/admin_changepassword' element={<Adminchangepassword/>} />
-        <Route path='/admin_dashbord' element={<Admindashbord/>} />
-        <Route path='/admin_editcategory/1' element={<Admineditecategory/>} />
-        <Route path='/admin_editproduct' element={<Adminediteproduct/>} />
-        <Route path='/admin_forgotepassword' element={<Adminforgotepassword/>} />
-        <Route path='/admin_oder/' element={<Adminoders/>} />
-        <Route path='/admin_print' element={<Adminprint/>} />
-        <Route path='/admin_product' element={<AdminProduct/>} />
-        <Route path='/admin_viewodersdetail/:userid' element={<Adminviewoderdetails/>} />
-        <Route path='/admin_viewproduct/:productid' element={<Adminviewproduct/>} />
-        <Route path='/adminuser' element={<Adminuser/>}/>
-        //<Route path='/*' element={<Four/>}/>
+      <Routes>
+        <Route path='/' element={<Login />} />
+        <Route path='/admin_addcategory' element={<Adminaddcategory />} />
+        <Route path='/admin_addproduct' element={<Adminaddproduct />} />
+        <Route path='/admin_category' element={<Admincategory />} />
+        <Route path='/admin_changepassword' element={<Adminchangepassword />} />
+        <Route path='/admin_dashbord' element={<Admindashbord />} />
+        { // dyanamic output 
+        }
+        <Route path='/admin_editcategory/:categoryid' element={<Admineditecategory />} />
+        <Route path='/admin_viewproduct/:productid' element={<Adminviewproduct />} />
+        <Route path='/admin_viewodersdetail/:userid' element={<Adminviewoderdetails />} />
+
+        <Route path='/admin_editproduct' element={<Adminediteproduct />} />
+        <Route path='/admin_forgotepassword' element={<Adminforgotepassword />} />
+        <Route path='/admin_oder/' element={<Adminoders />} />
+        <Route path='/admin_print' element={<Adminprint />} />
+        <Route path='/admin_product' element={<AdminProduct />} />
+        <Route path='/adminuser' element={<Adminuser />} />
+        //<Route path='/*' element={<Four />} />
       </Routes>
     </BrowserRouter>
   );
