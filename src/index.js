@@ -27,12 +27,12 @@ function Shop() {
       <Routes>
         <Route path='/' element={<Login />} />
         <Route path='/admin_addcategory' element={<Adminaddcategory />} />
-        <Route path='/admin_addproduct' element={<Adminaddproduct />} />
         <Route path='/admin_category' element={<Admincategory />} />
         <Route path='/admin_changepassword' element={<Adminchangepassword />} />
         <Route path='/admin_dashbord' element={<Admindashbord />} />
         { // dyanamic output 
         }
+        <Route path='/admin_addproduct' element={<Adminaddproduct />} />
         <Route path='/admin_editcategory/:categoryid' element={<Admineditecategory />} />
         <Route path='/admin_viewproduct/:productid' element={<Adminviewproduct />} />
         <Route path='/admin_viewodersdetail/:userid' element={<Adminviewoderdetails />} />

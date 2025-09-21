@@ -10,16 +10,6 @@ import { Showerror, Showmessage } from "./message";
 export default function Adminadproduct() {
   let navigate = useNavigate()
   let [items, setItem] = useState([]);
-  // create state variable euch and evry input
-  /*const [title, setTitle] = useState("");
-    const [price, setPrice] = useState("");
-    const [details, setDetails] = useState("");
-    const [stock, setStock] = useState("");
-    const [weight, setWeight] = useState("");
-    const [size, setSize] = useState("");
-    const [photo, setPhoto] = useState(null);
-    const [isLive, setIsLive] = useState("1"); */
-
   let [category, setCategory] = useState("");
   let [title, setTitle] = useState("");
   let [price, setPrice] = useState("");
@@ -30,56 +20,6 @@ export default function Adminadproduct() {
   let [photo, setPhoto] = useState(null);
   let [isLive, setIsLive] = useState("1")
 
-  let insertData = function (e) {
-    e.preventDefault();
-    let apiaddress = getBaseUrl() + "insert_product.php";
-    let form = new FormData(e.target);
-    form.append('categoryid', category);
-    form.append('name', title);
-    form.append('price', price);
-    form.append('details', details);
-    form.append('stock', stock);
-    form.append('weight', weight);
-    form.append('size', size);
-    form.append('photo', photo);
-    form.append('isLive', isLive);
-    for (let [key, value] of form.entries()) {
-      console.log(key, value);
-    }
-
-    axios({
-      method: 'post',
-      responseType: 'json',
-      url: apiaddress,
-      data: form
-    }).then((response) => {
-      console.log(response.data);
-      let error = response.data[0]['error'];
-      if (error !== 'no') {
-        Showerror(error);
-      }
-      else {
-        let success = response.data[1]['success'];
-        let message = response.data[2]['message'];
-
-        if (success === 'no') {
-          //Showerror(success);
-        }
-        else {
-          Showmessage(message);
-          setTimeout(() => {
-            navigate("/admin_product");
-          }, 2000)
-
-        }
-      }
-
-    }).catch((error) => {
-      if (error.code === 'ERR_NETWORK')
-        Showerror(error);
-      console.log(error)
-    })
-  }
 
   useEffect(() => {
     if (items.length === 0) {
@@ -115,6 +55,56 @@ export default function Adminadproduct() {
       })
     }
   }, [items]);
+  
+  let insertData = function (e) {
+    // make sour whene aipcall keyvalue are same no mistack 
+    e.preventDefault();
+    let apiaddress = getBaseUrl() + "insert_product.php";
+    let form = new FormData(e.target);
+    form.append('categoryid', category);
+    form.append('name', title);
+    form.append('price', price);
+    form.append('detail', details);
+    form.append('stock', stock);
+    form.append('weight', weight);
+    form.append('size', size);
+    form.append('photo', photo);
+    form.append('islive', isLive);
+    
+
+      axios({
+      method: 'post',
+      responseType: 'json',
+      url: apiaddress,
+      data: form
+    }).then((response) => {
+      console.log(response.data);
+      let error = response.data[0]['error'];
+      if (error !== 'no') {
+        Showerror(error);
+      }
+      else {
+        let success = response.data[1]['success'];
+        let message = response.data[2]['message'];
+
+        if (success === 'no') {
+          //Showerror(success);
+        }
+        else {
+          Showmessage(message);
+          setTimeout(() => {
+            navigate("/admin_product");
+          }, 2000)
+
+        }
+      }
+
+    }).catch((error) => {
+      if (error.code === 'ERR_NETWORK')
+        Showerror(error);
+      console.log(error)
+    })
+  }
 
   return (
     <div id="wrapper">
@@ -237,7 +227,7 @@ export default function Adminadproduct() {
                               value='0'
                               name="isLive"
                               onChange={(e) => setIsLive(e.target.value)}
-                               id="isLiveNo"
+                              id="isLiveNo"
                               checked={isLive === "0"}
                               required />
                             <label className="form-check-label" htmlFor="isLiveNo">No</label>
