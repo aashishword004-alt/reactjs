@@ -58,6 +58,9 @@ export default function Adminadproduct() {
   
   let insertData = function (e) {
     // make sour whene aipcall keyvalue are same no mistack 
+    // ex  form.append('categoryid', category);
+    // categoryid is keyvalue both in same in api and api calling no small mistack allow 
+
     e.preventDefault();
     let apiaddress = getBaseUrl() + "insert_product.php";
     let form = new FormData(e.target);
