@@ -8,6 +8,26 @@ import { Showerror, Showmessage } from "./message";
 import { getBaseUrl, getImageUrl } from "./comman";
 export default function Admincategory() {
   let [iteams, setItams] = useState([]);
+  let [currentPage, setCurrentPage] = useState(1);
+  let itemsPerPage = 5; // how many rows per page
+
+  // serach bar
+  let [searchTerm, setSearchTerm] = useState("");
+
+  let filteredItems = iteams.filter(
+    (item) =>
+      item.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      item.id.toString().includes(searchTerm)
+  );
+
+
+  // ⬇ Pagination slice logic (put here)
+  let indexOfLastItem = currentPage * itemsPerPage;
+  let indexOfFirstItem = indexOfLastItem - itemsPerPage;
+  let currentItems = filteredItems.slice(indexOfFirstItem, indexOfLastItem);
+
+
+  // delete category
   let deleteCategory = function (categoryId) {
     let apiaddres = getBaseUrl() + "delete_category.php?id=" + categoryId;
     console.log(apiaddres);
@@ -26,16 +46,15 @@ export default function Admincategory() {
         // remove data from state array
         // fliter the state array
         let filetCategory = iteams.filter((current) => {
-          if (current.id !== categoryId)
-          {
+          if (current.id !== categoryId) {
 
             return current;
           }
-            
+
         });
-         console.log(filetCategory);
-          setItams(filetCategory);
-          Showmessage(message);
+        console.log(filetCategory);
+        setItams(filetCategory);
+        Showmessage(message);
 
       }
     }).catch((error) => {
@@ -45,6 +64,8 @@ export default function Admincategory() {
       }
     })
   }
+
+  // display items 
   let display = function (item) {
     return (<tr>
       <td>{item.id}</td>
@@ -59,6 +80,8 @@ export default function Admincategory() {
       </td>
     </tr>)
   }
+
+  // api calling
   useEffect(() => {
 
     if (iteams.length === 0) {
@@ -108,7 +131,8 @@ export default function Admincategory() {
 
         });
     }
-  }, [])
+  }, []);
+
   return (<div id="wrapper">
     {/* Sidebar */}
     <Menu />
@@ -133,6 +157,40 @@ export default function Admincategory() {
                   </Link>
                 </div>
                 <div className="card-body">
+                   {/* search button */}
+                  <div className="d-flex justify-content-end mb-3" style={{ position: "relative" }}>
+                    <input
+                      type="text"
+                      style={{
+                        padding: "6px 30px 6px 12px", // space for icon on right
+                        borderRadius: "20px",
+                        border: "1px solid #ccc",
+                        width: "200px",
+                        outline: "none",
+                        transition: "0.3s",
+                      }}
+                      placeholder="Search by title or id"
+                      value={searchTerm}
+                      onChange={(e) => {
+                        setSearchTerm(e.target.value);
+                        setCurrentPage(1); // reset page when searching
+                      }}
+                      onFocus={(e) => (e.target.style.borderColor = "#007bff")}
+                      onBlur={(e) => (e.target.style.borderColor = "#ccc")}
+                    />
+                    {/* Magnifying glass icon */}
+                    <i
+                      className="fa fa-search"
+                      style={{
+                        position: "absolute",
+                        right: "10px",
+                        top: "50%",
+                        transform: "translateY(-50%)",
+                        color: "#aaa",
+                        pointerEvents: "none",
+                      }}
+                    ></i>
+                  </div>
                   <table className="table table-bordered table-striped">
                     <thead>
                       <tr>
@@ -145,8 +203,26 @@ export default function Admincategory() {
                       </tr>
                     </thead>
                     <tbody>
-                      {iteams.map((item) => display(item))}
-                    </tbody>
+                      {currentItems.map((item) => display(item))}
+                    </tbody><br></br>
+                    <nav>
+                      <ul className="pagination">
+                        {Array.from({ length: Math.ceil(filteredItems.length / itemsPerPage) }, (_, i) => (
+                          <li
+                            key={i}
+                            className={`page-item ${currentPage === i + 1 ? "active" : ""}`}
+                          >
+                            <button
+                              className="page-link"
+                              onClick={() => setCurrentPage(i + 1)}
+                            >
+                              {i + 1}
+                            </button>
+                          </li>
+                        ))}
+                      </ul>
+                    </nav>
+
                   </table>
                 </div>
               </div>
