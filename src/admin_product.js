@@ -49,8 +49,8 @@ export default function AdminProduct() {
         {  // add id into link 
         }
         <Link to={'/admin_viewproduct/' + item['id']} target="_blank">
-          {item.category} <br />
-          {item.title}
+          {item.title} <br/>
+          {item.categorytitle}
         </Link>
       </td>
       <td>{item.price}</td>

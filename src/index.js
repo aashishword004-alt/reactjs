@@ -30,12 +30,13 @@ function Shop() {
         <Route path='/admin_category' element={<Admincategory />} />
         <Route path='/admin_changepassword' element={<Adminchangepassword />} />
         <Route path='/admin_dashbord' element={<Admindashbord />} />
-        { // dyanamic output 
-        }
+
+        { /* dyanamic output */}
+        
         <Route path='/admin_addproduct' element={<Adminaddproduct />} />
         <Route path='/admin_editcategory/:categoryid' element={<Admineditecategory />} />
         <Route path='/admin_viewproduct/:productid' element={<Adminviewproduct />} />
-        <Route path='/admin_viewodersdetail/:oderid' element={<Adminviewoderdetails />} />
+        <Route path='/admin_viewodersdetail/:orderid' element={<Adminviewoderdetails />} />
 
         <Route path='/admin_editproduct' element={<Adminediteproduct />} />
         <Route path='/admin_forgotepassword' element={<Adminforgotepassword />} />

@@ -10,7 +10,7 @@ import { Link } from "react-router-dom";
 export default function Adminoders() {
   let display = function (user) {
     return (<tr>
-      <td>{user.id}</td>                 
+      <td>{user.id}</td>
       <td>{user.billdate}</td>
       <td>{user.amount}</td>
       <td>
@@ -19,8 +19,7 @@ export default function Adminoders() {
       </td>
       <td>{user.orderstatus}</td>
       <td>
-       <Link className="btn btn-primary" to={'/admin_viewodersdetail/:oderid' + user['id']}>View</Link>
-
+        <Link className="btn btn-primary" to={'/admin_viewodersdetail/' + user['id']}>View</Link>
       </td>
     </tr>)
   }
@@ -54,7 +53,7 @@ export default function Adminoders() {
             Showmessage('oders not found')
           }
           else {
-            respone.data.splice(0, 7)
+            respone.data.splice(0, 2)
             console.log(respone.data)
             setoders(respone.data)
             Showmessage('You are Online')
