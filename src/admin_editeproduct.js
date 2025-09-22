@@ -1,110 +1,218 @@
+import { useEffect, useState } from "react";
 import Menu from "./menu";
 import Navbar from "./nav";
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
+import { getBaseUrl } from "./comman";
+import axios from "axios";
+import { Showerror, Showmessage } from "./message";
 
-export default  function Adminediteproduct(){
-    return(<div id="wrapper">
-  {/* Sidebar */}
- <Menu/>
-  {/* End of Sidebar */}
-  {/* Content Wrapper */}
-  <div id="content-wrapper" className="d-flex flex-column">
-    {/* Main Content */}
-    <div id="content">
-      {/* Topbar */}
-   <Navbar/>
-      {/* End of Topbar */}
-      {/* Begin Page Content */}
-      <div className="container-fluid">
-        <div className="row">
-          <div className="col-12">
-            <div className="card shadow mb-4">
-              <div className="card-header py-3 d-flex justify-content-between">
-                <h5 className="m-0 font-weight-bold text-primary">Products (edit)</h5>
-                <Link to="/admin_product" className="btn btn-primary btn-sm">back
-                </Link>
-              </div>
-              <div className="card-body">
-                <form>
-                  <div className="row">
-                    <div className="col-sm-2">
-                      <b>Existing Photo</b> <br />
-                      <img src="http://picsum.photos/200" className="img-fluid" />
-                    </div>
-                    <div className="col-sm-10">
-                      <div className="row mb-3">
-                        <div className="col-md-4">
-                          <label htmlFor="category" className="form-label">Change Category</label> <br />
-                          <select id="category" className="form-select" required>
-                            <option selected>Choose...</option>
-                            <option value={1}>Category 1</option>
-                            <option value={2}>Category 2</option>
-                            <option value={3}>Category 3</option>
-                          </select>
-                        </div>
-                        <div className="col-md-4">
-                          <label htmlFor="title" className="form-label">Edit Title</label>
-                          <input type="text" className="form-control" id="title" placeholder="Enter title" required />
-                        </div>
-                        <div className="col-md-4">
-                          <label htmlFor="price" className="form-label">Edit Price</label>
-                          <input type="number" className="form-control" id="price" placeholder="Enter price" required />
-                        </div>
+export default function Adminediteproduct() {
+  // id insert hook
+  let { productid } = useParams();
+
+  // state varianle
+  let [categorys, setCategorys] = useState([]);
+  const [product, setProduct] = useState([]);
+  const [isFetched, setIsFetched] = useState(false);
+  const [category, setCategory] = useState("");
+  const [title, setTitle] = useState("");
+  const [price, setPrice] = useState("");
+  const [details, setDetails] = useState("");
+  const [stock, setStock] = useState("");
+  const [weight, setWeight] = useState("");
+  const [size, setSize] = useState("");
+  const [photo, setPhoto] = useState(null);
+  const [newPhoto, setnewPhoto] = useState(null);
+  const [isLive, setIsLive] = useState("1");
+
+  // make state variable evry inpute
+
+
+  // Product edite section
+  let fatchProduct = function () {
+if(isFetched === false)
+    {
+      let apiAdress = getBaseUrl() + 'update_product.php?id=' + productid;
+      axios({
+        url: apiAdress,
+        responseType: 'json',
+        method: 'get'
+      }).then((response) => {
+        console.log(response.data);
+
+        let error = response.data[0]['error'];
+        if (error !== 'no') {
+          Showerror();
+
+        }
+        else {
+          let total = response.data[1]['total'];
+          if (total === 0) {
+            Showerror('Category Not fatch');
+          }
+          else {
+            response.data.splice(0, 2);
+            // stor each input in state varible
+            setIsFetched(true);
+            setCategory(response.data[0]['title']);
+            setDetails(response.data[0]['details']);
+            setIsLive(response.data[0]['isLive']);
+            setPhoto(response.data[0]['photo']);
+            setSize(response.data[0]['size']);
+            setCategory(response.data[0]['categoryid']);
+            setTitle(response.data[0]['title']);
+            setWeight(response.data[0]['weight']);
+            setStock(response.data[0]['stock']);
+          }
+
+        }
+      }).catch((error) => {
+        if (error.code === 'ERR_NETWORK')
+          Showerror();
+
+      });
+    }
+  }
+  useEffect(() => {
+    if (categorys.length === 0) {
+      let apiaddress = getBaseUrl() + 'category.php';
+      axios({
+        responseType: 'json',
+        url: apiaddress,
+        method: 'get',
+      }).then((response) => {
+        console.log(response.data);
+        let error = response.data[0]['error'];
+        if (error !== 'no') {
+          Showerror();
+        }
+        else {
+          let total = response.data[1]['total'];
+          if (total === 0) {
+            Showerror('Category not Facth');
+          }
+          else {
+            response.data.splice(0, 2);
+            console.log(response.data);   // stor in state varible
+            setCategorys(response.data)
+          }
+
+        }
+      }).catch((error) => {
+        if (error.code === 'ERR_NETWORK')
+          Showmessage(error);
+      });
+    }
+  },[]);
+
+  return (<div id="wrapper">
+    {/* Sidebar */}
+    <Menu />
+    {/* End of Sidebar */}
+    {/* Content Wrapper */}
+    <div id="content-wrapper" className="d-flex flex-column">
+      {/* Main Content */}
+      <div id="content">
+        {/* Topbar */}
+        <Navbar />
+        {/* End of Topbar */}
+        {/* Begin Page Content */}
+        <div className="container-fluid">
+          <div className="row">
+            <div className="col-12">
+              <div className="card shadow mb-4">
+                <div className="card-header py-3 d-flex justify-content-between">
+                  <h5 className="m-0 font-weight-bold text-primary">Products (edit)</h5>
+                  <Link to="/admin_product" className="btn btn-primary btn-sm">back
+                  </Link>
+                </div>
+                <div className="card-body">
+                  <form method="post">
+                    <div className="row">
+                      <div className="col-sm-2">
+                        <b>Existing Photo</b> <br />
+                        <img src="http://picsum.photos/200" className="img-fluid" />
                       </div>
-                      <div className="row mb-3">
-                        <div className="col-12">
-                          <label htmlFor="details" className="form-label">Edit Details</label>
-                          <textarea className="form-control" id="details" rows={3} placeholder="Enter details" required defaultValue={""} />
-                        </div>
-                      </div>
-                      <div className="row mb-3">
-                        <div className="col-md-4">
-                          <label htmlFor="stock" className="form-label">Edit Stock</label>
-                          <input type="number" className="form-control" id="stock" placeholder="Enter stock quantity" required />
-                        </div>
-                        <div className="col-md-4">
-                          <label htmlFor="weight" className="form-label">Edit Weight</label>
-                          <input type="number" className="form-control" id="weight" placeholder="Enter weight" required />
-                        </div>
-                        <div className="col-md-4">
-                          <label htmlFor="size" className="form-label">Edit Size</label>
-                          <input type="text" className="form-control" id="size" placeholder="Enter size" required />
-                        </div>
-                      </div>
-                      <div className="row mb-3">
-                        <div className="col-md-4">
-                          <label htmlFor="photo" className="form-label">Change Photo</label>
-                          <input type="file" className="form-control" id="photo" required accept="image/*" />
-                        </div>
-                        <div className="col-md-4">
-                          <label className="form-label">Is Live</label>
-                          <div className="form-check">
-                            <input className="form-check-input" type="radio" name="islive" id="isLiveYes" defaultValue={1} required />
-                            <label className="form-check-label" htmlFor="isLiveYes">Yes</label>
+                      <div className="col-sm-10">
+                        <div className="row mb-3">
+                          <div className="col-md-4">
+                            <label htmlFor="category" className="form-label">Change Category</label> <br />
+                            <select id="category" className="form-select" required>
+                              <option value=''>Choose...</option>
+                              {categorys.map((item) => (
+                                <option key={item['id']} value={[item['id']]}>{item['title']}</option>
+                              ))}
+
+
+                            </select>
                           </div>
-                          <div className="form-check">
-                            <input className="form-check-input" type="radio" name="islive" id="isLiveNo" defaultValue={0} required />
-                            <label className="form-check-label" htmlFor="isLiveNo">No</label>
+                          <div className="col-md-4">
+                            <label htmlFor="title" className="form-label">Edit Title</label>
+                            <input type="text"
+                              className="form-control" 
+                               value={title}
+                              id="title" placeholder="Enter title" required />
+                          </div>
+                          <div className="col-md-4">
+                            <label htmlFor="price" className="form-label">Edit Price</label>
+                            <input type="number"
+                              className="form-control" id="price" placeholder="Enter price" required />
                           </div>
                         </div>
-                        <div className="col-md-4">
-                          <button type="submit" className="btn btn-primary w-100 mb-2">Save changes</button>
-                          <button type="reset" className="btn btn-light w-100">Clear all</button>
+                        <div className="row mb-3">
+                          <div className="col-12">
+                            <label htmlFor="details" className="form-label">Edit Details</label>
+                            <textarea className="form-control" id="details" rows={3} placeholder="Enter details" required defaultValue={""} />
+                          </div>
+                        </div>
+                        <div className="row mb-3">
+                          <div className="col-md-4">
+                            <label htmlFor="stock" className="form-label">Edit Stock</label>
+                            <input type="number" className="form-control" id="stock" placeholder="Enter stock quantity" required />
+                          </div>
+                          <div className="col-md-4">
+                            <label htmlFor="weight" className="form-label">Edit Weight</label>
+                            <input type="number" className="form-control" id="weight" placeholder="Enter weight" required />
+                          </div>
+                          <div className="col-md-4">
+                            <label htmlFor="size" className="form-label">Edit Size</label>
+                            <input type="text" className="form-control" id="size" placeholder="Enter size" required />
+                          </div>
+                        </div>
+                        <div className="row mb-3">
+                          <div className="col-md-4">
+                            <label htmlFor="photo" className="form-label">Change Photo</label>
+                            <input type="file" className="form-control" id="photo" required accept="image/*" />
+                          </div>
+                          <div className="col-md-4">
+                            <label className="form-label">Is Live</label>
+                            <div className="form-check">
+                              <input className="form-check-input" type="radio" name="islive" id="isLiveYes" defaultValue={1} required />
+                              <label className="form-check-label" htmlFor="isLiveYes">Yes</label>
+                            </div>
+                            <div className="form-check">
+                              <input className="form-check-input" type="radio" name="islive" id="isLiveNo" defaultValue={0} required />
+                              <label className="form-check-label" htmlFor="isLiveNo">No</label>
+                            </div>
+                          </div>
+                          <div className="col-md-4">
+                            <button type="submit" className="btn btn-primary w-100 mb-2">Save changes</button>
+                            <button type="reset" className="btn btn-light w-100">Clear all</button>
+                          </div>
                         </div>
                       </div>
                     </div>
-                  </div>
-                </form>
+                  </form>
+                </div>
               </div>
             </div>
           </div>
         </div>
-      </div>      
-      {/* /.container-fluid */}
+        {/* /.container-fluid */}
+      </div>
+      {/* End of Main Content */}
     </div>
-    {/* End of Main Content */}
+    {/* End of Content Wrapper */}
   </div>
-  {/* End of Content Wrapper */}
-</div>
-);
+  );
 }

@@ -10,6 +10,8 @@ import { getBaseUrl, getImageUrl } from "./comman";
 export default function AdminProduct() {
   let [itams, setItams] = useState([]);
 
+
+
   // delete product 
   let deleteProduct = function (productid) {
       let apiaddress = getBaseUrl() + `delete_product.php?id=${productid}`;
@@ -60,7 +62,7 @@ export default function AdminProduct() {
       <td>{item.stock}</td>
       <td>{(item.islive === '1' ? 'Yes' : 'No')}</td>
       <td>
-        <Link to="/admin_editproduct" className="btn btn-warning btn-sm btn-block mb-1">Edit</Link>
+        <Link to={"/admin_editproduct/" + item.id} className="btn btn-warning btn-sm btn-block mb-1">Edit</Link>
         <Link onClick={() =>deleteProduct(item['id'])} className="btn btn-danger btn-sm btn-block">Delete</Link>
       </td>
     </tr>);
