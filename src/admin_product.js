@@ -10,6 +10,7 @@ import { getBaseUrl, getImageUrl } from "./comman";
 export default function AdminProduct() {
   let [itams, setItams] = useState([]);
 
+  // delete product 
   let deleteProduct = function (productid) {
       let apiaddress = getBaseUrl() + `delete_product.php?id=${productid}`;
       axios({
@@ -39,7 +40,8 @@ export default function AdminProduct() {
       });
     
   }
-
+   
+  // display function
   let display = function (item) {
     return (<tr>
       <td>{item.id}</td>
@@ -111,7 +113,8 @@ export default function AdminProduct() {
           Showerror()
       })
     }
-  })
+  });
+
   return (<div id="wrapper">
     {/* Sidebar */}
     <Menu />
@@ -136,6 +139,38 @@ export default function AdminProduct() {
                   </Link>
                 </div>
                 <div className="card-body">
+                                    <div className="d-flex justify-content-end mb-3" style={{ position: "relative" }}>
+                    <input
+                      type="text"
+                      style={{
+                        padding: "6px 30px 6px 12px", // space for icon on right
+                        borderRadius: "20px",
+                        border: "1px solid #ccc",
+                        width: "200px",
+                        outline: "none",
+                        transition: "0.3s",
+                      }}
+                      placeholder="Search Category"
+                      //value={searchTerm}
+                      //onChange={(e) => {
+                        //setSearchTerm(e.target.value);
+                        //setCurrentPage(1); // reset page when searching}}
+                      //onFocus={(e) => (e.target.style.borderColor = "#007bff")}
+                     // onBlur={(e) => (e.target.style.borderColor = "#ccc")}
+                    />
+                    {/* Magnifying glass icon */}
+                    <i
+                      className="fa fa-search"
+                      style={{
+                        position: "absolute",
+                        right: "10px",
+                        top: "50%",
+                        transform: "translateY(-50%)",
+                        color: "#aaa",
+                        pointerEvents: "none",
+                      }}
+                    ></i>
+                  </div>
                   <table className="table table-bordered table-striped">
                     <thead>
                       <tr>
@@ -151,6 +186,8 @@ export default function AdminProduct() {
                     <tbody>
                       {itams.map((item) => display(item))}
                     </tbody>
+                    {/* paginassion */}
+                    
                   </table>
                 </div>
               </div>

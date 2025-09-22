@@ -6,7 +6,12 @@ import axios from 'axios';
 import { ToastContainer } from 'react-toastify';
 import { Showerror, Showmessage } from "./message";
 import { getBaseUrl, getImageUrl } from "./comman";
+
+// panding paginassion and searchbar 
+
 export default function Admincategory() {
+
+  // state  variables 
   let [iteams, setItams] = useState([]);
   let [currentPage, setCurrentPage] = useState(1);
   let itemsPerPage = 5; // how many rows per page
@@ -157,7 +162,7 @@ export default function Admincategory() {
                   </Link>
                 </div>
                 <div className="card-body">
-                   {/* search button */}
+                  {/* search button */}
                   <div className="d-flex justify-content-end mb-3" style={{ position: "relative" }}>
                     <input
                       type="text"
@@ -169,7 +174,7 @@ export default function Admincategory() {
                         outline: "none",
                         transition: "0.3s",
                       }}
-                      placeholder="Search by title or id"
+                      placeholder="Search Category"
                       value={searchTerm}
                       onChange={(e) => {
                         setSearchTerm(e.target.value);
@@ -205,8 +210,9 @@ export default function Admincategory() {
                     <tbody>
                       {currentItems.map((item) => display(item))}
                     </tbody><br></br>
+                    {/* paginession  */}
                     <nav>
-                      <ul className="pagination">
+                      <ul className="pagination justify-content-end mb-4">
                         {Array.from({ length: Math.ceil(filteredItems.length / itemsPerPage) }, (_, i) => (
                           <li
                             key={i}
@@ -222,7 +228,6 @@ export default function Admincategory() {
                         ))}
                       </ul>
                     </nav>
-
                   </table>
                 </div>
               </div>
