@@ -1,54 +1,42 @@
 import { Link, useParams } from "react-router-dom";
 import Menu from "./menu";
 import Navbar from "./nav";
-import { useEffect, useState } from "react";
+import { ToastContainer } from "react-toastify";
+import { useEffect } from "react";
+import { Showerror } from "./message";
 import { getBaseUrl } from "./comman";
 import axios from "axios";
-import { Showerror, Showmessage } from "./message";
-import { ToastContainer } from "react-toastify";
 
+// //https://theeasylearnacademy.com/shop/ws/order_details.php?orderid=3
+
+// https://theeasylearnacademy.com/shop/ws/order_details.php?orderid=3
 
 export default function Adminviewoderdetails() {
-   // useParmas 
-    let {userid} = useParams()
-  let [oders, setOders] = useState([]) // create the stat variable to store data
+let {oderid} = useParams();
 
-  useEffect(() => {
-    if (oders.length === 0) {
-      let apiAdress = getBaseUrl() + 'orders.php?id='  + userid;
-      axios({
-        method: 'get',
-        responseType: 'json',
-        url: apiAdress
-      }).then((response) => {
-        console.log(response.data);
-        let error = response.data[0]['error']
-        if (error !== 'no') {
-          Showerror(error)
-        }
-        else {
-          let total = response.data[1]['total']
-          if (total === 0) {
-            Showmessage('Oder is not Define')
-          }
-          else {
-            response.data.splice(0, 2) // when totol is 0 < then remove two object in array
-            setOders(response.data[0])
-            console.log(response.data);
-            Showmessage('Oder Details Hear')
-          }
-        }
-
-      }).catch((error) => {
-        if (error.code === 'ERR_NETWORK') {
+useEffect(() =>{
+  let apiAddress = getBaseUrl() + `orders.php?id=${oderid}`;
+  axios({
+    responseType:'json',
+    method:'get',
+    url:apiAddress
+  }).then((response) =>{
+    /* [{"error":"no"},
+    {"total":1},
+    {"billdate":"27-11-2024",
+    "orderstatus":"5","id":"20","fullname":"jenil gabani",
+    "address1":"bhavangar","address2":"surat",
+    "city":"surat","pincode":"undefi","amount":"800",
+    "mobile":"9054228044","remarks":"100","paymentmode":"1","paymentstatus":"2"}] */
+    console.log(response.data);
+    
+  }).catch((error) => {
+          if (error.code === 'ERR_NETWORK')
+            console.log(error.code);
           Showerror()
-        }
-
-      })
-
-    }
-  })
-
+        })
+})
+  
   return (<div id="wrapper">
     {/* Sidebar */}
     <Menu />
@@ -80,7 +68,7 @@ export default function Adminviewoderdetails() {
                     <tbody>
                       <tr>
                         <td width="25%">Name</td>
-                        <td width="25%">{oders['fullname']}</td>
+                        <td width="25%">ankit patel</td>
                         <td width="25%">Date</td>
                         <td width="25%">Fri 09-08-2024</td>
                       </tr>

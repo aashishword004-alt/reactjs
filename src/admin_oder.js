@@ -19,7 +19,7 @@ export default function Adminoders() {
       </td>
       <td>{user.orderstatus}</td>
       <td>
-       <Link className="btn btn-primary" to={'/admin_viewodersdetail/:' + user['id']}>View</Link>
+       <Link className="btn btn-primary" to={'/admin_viewodersdetail/:oderid' + user['id']}>View</Link>
 
       </td>
     </tr>)
@@ -54,7 +54,7 @@ export default function Adminoders() {
             Showmessage('oders not found')
           }
           else {
-            respone.data.splice(0, 2)
+            respone.data.splice(0, 7)
             console.log(respone.data)
             setoders(respone.data)
             Showmessage('You are Online')

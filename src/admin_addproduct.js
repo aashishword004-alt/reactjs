@@ -60,6 +60,7 @@ export default function Adminadproduct() {
     // make sour whene aipcall keyvalue are same no mistack 
     // ex  form.append('categoryid', category);
     // categoryid is keyvalue both in same in api and api calling no small mistack allow 
+    // not write category same to same write
 
     e.preventDefault();
     let apiaddress = getBaseUrl() + "insert_product.php";
