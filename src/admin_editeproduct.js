@@ -11,7 +11,7 @@ export default function Adminediteproduct() {
 
   let { productid } = useParams();
   // state variable 
-  let [fached,setFached] = useState(false);
+  let [isfached,setFached] = useState(false);
   let [products, setProduct] = useState([]);
   let [category, setCategory] = useState("");
   let [title, setTitle] = useState("");
@@ -21,6 +21,7 @@ export default function Adminediteproduct() {
   let [weight, setWeight] = useState("");
   let [size, setSize] = useState("");
   let [photo, setPhoto] = useState(null);
+  let [newphoto,setnewPhoto] = useState(null);
   let [isLive, setIsLive] = useState("1")
 
   // facthcategory 
@@ -59,8 +60,11 @@ export default function Adminediteproduct() {
     }
   }
 
+  // fachProduct
   let facthProduct = function () {
-    if (setFached === false) {
+    if(isfached  === false){
+
+    
       let apiAddress = getBaseUrl() + 'product.php?productid=' + productid;
       axios({
         responseType: 'json',
@@ -101,6 +105,41 @@ export default function Adminediteproduct() {
     }
   }
 
+  // updateProduct
+  let editProduct = function(e){
+    let apiAddress = getBaseUrl() +  "update_product.php";
+    let form = new FormData()
+    axios({
+      responseType:'json',
+      method:'post',
+      url:apiAddress,
+      data:form
+    }).then((response) =>{
+      console.log(response.data);
+      let error = response.data[0]['error'];
+      if(error !== 'no')
+      {
+        Showerror(error);
+      }
+      else{
+              let success = response.data[1]['success'];
+              let message = response.data[2]['message'];
+              if(success === 'no')
+              {
+                Showerror(message);
+
+              }
+              else{
+                // pnading
+                
+              }
+      }
+      
+    }).catch((error) =>
+    {
+     if(error.code === 'ERR_NETWORK');
+    });
+  }
   useEffect(() => {
     facthCategory();
     facthProduct();
@@ -130,7 +169,7 @@ export default function Adminediteproduct() {
                   </Link>
                 </div>
                 <div className="card-body">
-                  <form method="post">
+                  <form method="post" onSubmit={editProduct}>
                     <div className="row">
                       <div className="col-sm-2">
                         <b>Existing Photo</b> <br />
@@ -142,17 +181,22 @@ export default function Adminediteproduct() {
                             <label htmlFor="category" className="form-label">Change Category</label> <br />
                             <select id="category" className="form-select" required>
                               <option value=''>Choose...</option>
-                              {products.map((cat) => (
-                                <option key={cat['id']} value={cat['id']}>{cat['title']}</option>
-                              ))}
+                              {products.map(function (cat) {
+                                if(cat.id === category)
+                                  return <option value={cat.id} selected >{cat.title}</option>
+                                
+                                else
+                                  return <option value={cat.id}>{cat.title}</option>
+
+                              })}
 
                             </select>
                           </div>
                           <div className="col-md-4">
                             <label htmlFor="title" className="form-label">Edit Title</label>
                             <input type="text"
-                            value={title}
-                            onChange={(e) => (e.target.value)}
+                             value={title}
+                             onChange={(e) => setTitle(e.target.value)}
                               className="form-control"
                               id="title" placeholder="Enter title" required />
                           </div>
@@ -161,6 +205,7 @@ export default function Adminediteproduct() {
                             <input type="number"
                               className="form-control"
                               value={price}
+                              onChange={(e) => setPrice(e.target.value)}
                                id="price" placeholder="Enter price" required />
                           </div>
                         </div>
@@ -169,7 +214,8 @@ export default function Adminediteproduct() {
                             <label htmlFor="details" className="form-label">Edit Details</label>
                             <textarea className="form-control"
                             value={details}
-                            id="details" rows={3} placeholder="Enter details" required defaultValue={""} />
+                            onChange={(e) => setDetails(e.target.value)}
+                            id="details" rows={3} placeholder="Enter details"/>
                           </div>
                         </div>
                         <div className="row mb-3">
@@ -177,6 +223,7 @@ export default function Adminediteproduct() {
                             <label htmlFor="stock" className="form-label">Edit Stock</label>
                             <input type="number"
                             value={stock}
+                            onChange={(e) => setStock(e.target.value)}
                             className="form-control" id="stock" placeholder="Enter stock quantity" required />
                           </div>
                           <div className="col-md-4">
@@ -189,18 +236,22 @@ export default function Adminediteproduct() {
                             <label htmlFor="size" className="form-label">Edit Size</label>
                             <input type="text"
                             value={size}
+                            onChange={(e) => setSize(e.target.size)}
                             className="form-control" id="size" placeholder="Enter size" required />
                           </div>
                         </div>
                         <div className="row mb-3">
                           <div className="col-md-4">
                             <label htmlFor="photo" className="form-label">Change Photo</label>
-                            <input type="file" className="form-control" id="photo" required accept="image/*" />
+                            <input type="file"
+                            onChange={(e) => setnewPhoto(e.target.files[0])}
+                            className="form-control" id="photo" required accept="image/*" />
                           </div>
                           <div className="col-md-4">
                             <label className="form-label">Is Live</label>
                             <div className="form-check">
                               <input className="form-check-input"
+                              onChange={(e) => setIsLive(e.target.value)}
                               checked={(isLive === '1')}
                               value={1}
                               type="radio" name="islive" id="isLiveYes" defaultValue={1} required />
@@ -209,6 +260,7 @@ export default function Adminediteproduct() {
                             </div>
                             <div className="form-check">
                               <input className="form-check-input" 
+                              onChange={(e) => setIsLive(e.target.value)}
                               checked={(isLive === '0')}
                               value={0}
                               type="radio" name="islive" id="isLiveNo" defaultValue={0} required />
