@@ -1,10 +1,10 @@
-import {  useState } from "react";
+import { COOKIENAME, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { getBaseUrl } from "./comman";
 import { ToastContainer } from "react-toastify";
 import axios from "axios";
 import { Showerror, Showmessage } from "./message";
-//import {useCookies} from "react-cookie"
+import { useCookies } from "react-cookie"
 
 export default function Login() {
 
@@ -12,48 +12,49 @@ export default function Login() {
   // create a state variable to stor input
   var [email, setEmail] = useState('');
   var [password, setPassword] = useState('');
-  
+
   // create cookie variable 
-    //  const [cookies, setCookie, removeCookie] = useCookies([COOKIENAME]);
+  const [cookies, setCookie, removeCookie] = useCookies([COOKIENAME]);
 
   // create a function
   let adminLogin = function (e) {
     console.log(email, password);
 
-    let apiaddre = getBaseUrl() + 'admin_login.php';
+    let apiaddres = getBaseUrl() + 'admin_login.php';
     let form = new FormData();
-    form.append('email',email);
-    form.append('password',password);
+    form.append('email', email);
+    form.append('password', password);
     axios({
-      responseType:'json',
-      method:'post',
-      url:apiaddre,
-      data:form
-    }).then((response) =>{
+      responseType: 'json',
+      method: 'post',
+      url: apiaddres,
+      data: form
+    }).then((response) => {
       console.log(response.data)
       let error = response.data[0]['error'];
-      if(error !== 'no')
-      {
+      if (error !== 'no') {
         Showerror(error)
       }
-      else{
-        let success =response.data[1]['success'];
+      else {
+        let success = response.data[1]['success'];
         let message = response.data[2]['message'];
 
-        if(success === 'no')
-        {
+        if (success === 'no') {
           Showerror(message);
         }
-        else{
+        else {
           Showmessage(message);
-          setTimeout(() => {
+          // cookie
+          setCookie('userid', response.data[3]['id']);
+          console.log('userid', cookies['userid']);
+           setTimeout(() => {
             navigate('/admin_dashbord')
-          },2000);
+          }, 2000);
         }
       }
 
-    }).catch((error) =>{
-      if(error.code === 'ERR_NETWORK')
+    }).catch((error) => {
+      if (error.code === 'ERR_NETWORK')
         Showerror()
     })
     e.preventDefault();

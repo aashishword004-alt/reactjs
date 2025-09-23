@@ -9,4 +9,4 @@ export function getImageUrl() {
     return getBase() + "images/";
 }
 
-//export const COOKIENAME = 'user';
+export const COOKIENAME = 'user';

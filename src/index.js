@@ -52,4 +52,6 @@ function Shop() {
 }
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
-root.render(<Shop />);
+root.render(<CookiesProvider>
+  <Shop/>
+</CookiesProvider>);
