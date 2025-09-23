@@ -1,109 +1,102 @@
-import { useEffect, useState } from "react";
+import { use, useEffect, useState } from "react";
 import Menu from "./menu";
 import Navbar from "./nav";
 import { Link, useParams } from "react-router-dom";
 import { getBaseUrl } from "./comman";
 import axios from "axios";
 import { Showerror, Showmessage } from "./message";
+import { ToastContainer } from "react-toastify";
 
 export default function Adminediteproduct() {
-  // id insert hook
-  let { productid } = useParams();
 
-  // state varianle
-  let [categorys, setCategorys] = useState([]);
-  const [product, setProduct] = useState([]);
-  const [isFetched, setIsFetched] = useState(false);
-  const [category, setCategory] = useState("");
-  const [title, setTitle] = useState("");
-  const [price, setPrice] = useState("");
-  const [details, setDetails] = useState("");
-  const [stock, setStock] = useState("");
-  const [weight, setWeight] = useState("");
-  const [size, setSize] = useState("");
-  const [photo, setPhoto] = useState(null);
-  const [newPhoto, setnewPhoto] = useState(null);
-  const [isLive, setIsLive] = useState("1");
+ let {productid} = useParams();
+  // state variable 
+  let [categories, setCategories] = useState([]);
+  let [category, setCategory] = useState("");
+  let [title, setTitle] = useState("");
+  let [price, setPrice] = useState("");
+  let [details, setDetails] = useState("");
+  let [stock, setStock] = useState("");
+  let [weight, setWeight] = useState("");
+  let [size, setSize] = useState("");
+  let [photo, setPhoto] = useState(null);
+  let [isLive, setIsLive] = useState("1")
 
-  // make state variable evry inpute
-
-
-  // Product edite section
-  let fatchProduct = function () {
-if(isFetched === false)
-    {
-      let apiAdress = getBaseUrl() + 'update_product.php?id=' + productid;
+  // facthcategory 
+  let facthCategory = function () {
+    if (categories.length === 0) {
+      let apiAddress = getBaseUrl() + 'category.php';
       axios({
-        url: apiAdress,
         responseType: 'json',
+        url: apiAddress,
         method: 'get'
       }).then((response) => {
         console.log(response.data);
-
         let error = response.data[0]['error'];
         if (error !== 'no') {
-          Showerror();
-
+          Showerror()
         }
         else {
           let total = response.data[1]['total'];
           if (total === 0) {
-            Showerror('Category Not fatch');
+            Showerror('Ctaegory not found ');
+
           }
           else {
             response.data.splice(0, 2);
-            // stor each input in state varible
-            setIsFetched(true);
-            setCategory(response.data[0]['title']);
-            setDetails(response.data[0]['details']);
-            setIsLive(response.data[0]['isLive']);
-            setPhoto(response.data[0]['photo']);
-            setSize(response.data[0]['size']);
-            setCategory(response.data[0]['categoryid']);
-            setTitle(response.data[0]['title']);
-            setWeight(response.data[0]['weight']);
-            setStock(response.data[0]['stock']);
+            console.log(response.data);
+            setCategories(response.data);
           }
-
         }
+
       }).catch((error) => {
         if (error.code === 'ERR_NETWORK')
-          Showerror();
+          console.log(error.code);
 
+        Showerror()
       });
     }
   }
-  useEffect(() => {
-    if (categorys.length === 0) {
-      let apiaddress = getBaseUrl() + 'category.php';
-      axios({
-        responseType: 'json',
-        url: apiaddress,
-        method: 'get',
-      }).then((response) => {
-        console.log(response.data);
-        let error = response.data[0]['error'];
-        if (error !== 'no') {
-          Showerror();
-        }
-        else {
-          let total = response.data[1]['total'];
-          if (total === 0) {
-            Showerror('Category not Facth');
-          }
-          else {
-            response.data.splice(0, 2);
-            console.log(response.data);   // stor in state varible
-            setCategorys(response.data)
-          }
 
+   let facthProduct = function ()
+   {
+    let apiAddress = getBaseUrl () + 'product.php?id='+ productid;
+    axios({
+      responseType:'json',
+      method:'get',
+      url:apiAddress
+    }).then((response) =>{
+      console.log(response.data)
+      let error = response.data[0]['error'];
+      if(error !== 'no')
+      {
+        Showerror()
+      }
+      else{
+        let total = response.data[1]['total'];
+        if(total === 0)
+        {
+          Showerror('Product not found');
         }
-      }).catch((error) => {
+        else{
+          response.data.splice(0,2);
+          console.log(response.data);
+          // complete the 
+        }
+      }
+
+    }).catch((error) =>{
         if (error.code === 'ERR_NETWORK')
-          Showmessage(error);
-      });
-    }
+          // console.log(error.code);
+          Showerror()
+    });
+   }
+
+  useEffect(() => {
+    facthCategory();
+    facthProduct();
   },[]);
+
 
   return (<div id="wrapper">
     {/* Sidebar */}
@@ -117,6 +110,7 @@ if(isFetched === false)
         <Navbar />
         {/* End of Topbar */}
         {/* Begin Page Content */}
+        <ToastContainer />
         <div className="container-fluid">
           <div className="row">
             <div className="col-12">
@@ -139,18 +133,16 @@ if(isFetched === false)
                             <label htmlFor="category" className="form-label">Change Category</label> <br />
                             <select id="category" className="form-select" required>
                               <option value=''>Choose...</option>
-                              {categorys.map((item) => (
-                                <option key={item['id']} value={[item['id']]}>{item['title']}</option>
-                              ))}
-
+                              {categories.map((cat) =>(
+                                <option key={cat['id']} value={cat['id']}>{cat['title']}</option>
+                              )) }
 
                             </select>
                           </div>
                           <div className="col-md-4">
                             <label htmlFor="title" className="form-label">Edit Title</label>
                             <input type="text"
-                              className="form-control" 
-                               value={title}
+                              className="form-control"
                               id="title" placeholder="Enter title" required />
                           </div>
                           <div className="col-md-4">

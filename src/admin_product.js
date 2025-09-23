@@ -141,7 +141,7 @@ export default function AdminProduct() {
                   </Link>
                 </div>
                 <div className="card-body">
-                                    <div className="d-flex justify-content-end mb-3" style={{ position: "relative" }}>
+                  <div className="d-flex justify-content-end mb-3" style={{ position: "relative" }}>
                     <input
                       type="text"
                       style={{
