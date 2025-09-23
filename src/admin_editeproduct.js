@@ -2,16 +2,17 @@ import { use, useEffect, useState } from "react";
 import Menu from "./menu";
 import Navbar from "./nav";
 import { Link, useParams } from "react-router-dom";
-import { getBaseUrl } from "./comman";
+import { getBaseUrl, getImageUrl } from "./comman";
 import axios from "axios";
 import { Showerror, Showmessage } from "./message";
 import { ToastContainer } from "react-toastify";
 
 export default function Adminediteproduct() {
 
- let {productid} = useParams();
+  let { productid } = useParams();
   // state variable 
-  let [categories, setCategories] = useState([]);
+  let [fached,setFached] = useState(false);
+  let [products, setProduct] = useState([]);
   let [category, setCategory] = useState("");
   let [title, setTitle] = useState("");
   let [price, setPrice] = useState("");
@@ -24,7 +25,7 @@ export default function Adminediteproduct() {
 
   // facthcategory 
   let facthCategory = function () {
-    if (categories.length === 0) {
+    if (products.length === 0) {
       let apiAddress = getBaseUrl() + 'category.php';
       axios({
         responseType: 'json',
@@ -45,7 +46,7 @@ export default function Adminediteproduct() {
           else {
             response.data.splice(0, 2);
             console.log(response.data);
-            setCategories(response.data);
+            setProduct(response.data);
           }
         }
 
@@ -58,44 +59,52 @@ export default function Adminediteproduct() {
     }
   }
 
-   let facthProduct = function ()
-   {
-    let apiAddress = getBaseUrl () + 'product.php?id='+ productid;
-    axios({
-      responseType:'json',
-      method:'get',
-      url:apiAddress
-    }).then((response) =>{
-      console.log(response.data)
-      let error = response.data[0]['error'];
-      if(error !== 'no')
-      {
-        Showerror()
-      }
-      else{
-        let total = response.data[1]['total'];
-        if(total === 0)
-        {
-          Showerror('Product not found');
+  let facthProduct = function () {
+    if (setFached === false) {
+      let apiAddress = getBaseUrl() + 'product.php?productid=' + productid;
+      axios({
+        responseType: 'json',
+        method: 'get',
+        url: apiAddress
+      }).then((response) => {
+        console.log(response.data)
+        let error = response.data[0]['error'];
+        if (error !== 'no') {
+          Showerror()
         }
-        else{
-          response.data.splice(0,2);
-          console.log(response.data);
-          // complete the 
+        else {
+          let total = response.data[1]['total'];
+          if (total === 0) {
+            Showerror('Product not found');
+          }
+          else {
+            response.data.splice(0, 2);
+            console.log(response.data);
+            setFached(true);
+            setCategory(response.data[0]['categoryid']);
+            setDetails(response.data[0]['detail']);
+            setIsLive(response.data[0]['islive']);
+            setPhoto(response.data[0]['photo']);
+            setPrice(response.data[0]['price']);
+            setSize(response.data[0]['size']);
+            setStock(response.data[0]['stock']);
+            setTitle(response.data[0]['title']);
+            setWeight(response.data[0]['weight']);
+          }
         }
-      }
 
-    }).catch((error) =>{
+      }).catch((error) => {
         if (error.code === 'ERR_NETWORK')
           // console.log(error.code);
           Showerror()
-    });
-   }
+      });
+    }
+  }
 
   useEffect(() => {
     facthCategory();
     facthProduct();
-  },[]);
+  }, []);
 
 
   return (<div id="wrapper">
@@ -125,7 +134,7 @@ export default function Adminediteproduct() {
                     <div className="row">
                       <div className="col-sm-2">
                         <b>Existing Photo</b> <br />
-                        <img src="http://picsum.photos/200" className="img-fluid" />
+                        <img src={getImageUrl() + 'product/' + photo} className="img-fluid" />
                       </div>
                       <div className="col-sm-10">
                         <div className="row mb-3">
@@ -133,42 +142,54 @@ export default function Adminediteproduct() {
                             <label htmlFor="category" className="form-label">Change Category</label> <br />
                             <select id="category" className="form-select" required>
                               <option value=''>Choose...</option>
-                              {categories.map((cat) =>(
+                              {products.map((cat) => (
                                 <option key={cat['id']} value={cat['id']}>{cat['title']}</option>
-                              )) }
+                              ))}
 
                             </select>
                           </div>
                           <div className="col-md-4">
                             <label htmlFor="title" className="form-label">Edit Title</label>
                             <input type="text"
+                            value={title}
+                            onChange={(e) => (e.target.value)}
                               className="form-control"
                               id="title" placeholder="Enter title" required />
                           </div>
                           <div className="col-md-4">
                             <label htmlFor="price" className="form-label">Edit Price</label>
                             <input type="number"
-                              className="form-control" id="price" placeholder="Enter price" required />
+                              className="form-control"
+                              value={price}
+                               id="price" placeholder="Enter price" required />
                           </div>
                         </div>
                         <div className="row mb-3">
                           <div className="col-12">
                             <label htmlFor="details" className="form-label">Edit Details</label>
-                            <textarea className="form-control" id="details" rows={3} placeholder="Enter details" required defaultValue={""} />
+                            <textarea className="form-control"
+                            value={details}
+                            id="details" rows={3} placeholder="Enter details" required defaultValue={""} />
                           </div>
                         </div>
                         <div className="row mb-3">
                           <div className="col-md-4">
                             <label htmlFor="stock" className="form-label">Edit Stock</label>
-                            <input type="number" className="form-control" id="stock" placeholder="Enter stock quantity" required />
+                            <input type="number"
+                            value={stock}
+                            className="form-control" id="stock" placeholder="Enter stock quantity" required />
                           </div>
                           <div className="col-md-4">
                             <label htmlFor="weight" className="form-label">Edit Weight</label>
-                            <input type="number" className="form-control" id="weight" placeholder="Enter weight" required />
+                            <input type="number" className="form-control"
+                            value={weight}
+                            id="weight" placeholder="Enter weight" required />
                           </div>
                           <div className="col-md-4">
                             <label htmlFor="size" className="form-label">Edit Size</label>
-                            <input type="text" className="form-control" id="size" placeholder="Enter size" required />
+                            <input type="text"
+                            value={size}
+                            className="form-control" id="size" placeholder="Enter size" required />
                           </div>
                         </div>
                         <div className="row mb-3">
@@ -179,11 +200,18 @@ export default function Adminediteproduct() {
                           <div className="col-md-4">
                             <label className="form-label">Is Live</label>
                             <div className="form-check">
-                              <input className="form-check-input" type="radio" name="islive" id="isLiveYes" defaultValue={1} required />
-                              <label className="form-check-label" htmlFor="isLiveYes">Yes</label>
+                              <input className="form-check-input"
+                              checked={(isLive === '1')}
+                              value={1}
+                              type="radio" name="islive" id="isLiveYes" defaultValue={1} required />
+                              <label className="form-check-label" 
+                              htmlFor="isLiveYes">Yes</label>
                             </div>
                             <div className="form-check">
-                              <input className="form-check-input" type="radio" name="islive" id="isLiveNo" defaultValue={0} required />
+                              <input className="form-check-input" 
+                              checked={(isLive === '0')}
+                              value={0}
+                              type="radio" name="islive" id="isLiveNo" defaultValue={0} required />
                               <label className="form-check-label" htmlFor="isLiveNo">No</label>
                             </div>
                           </div>
