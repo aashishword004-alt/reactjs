@@ -8,3 +8,5 @@ export function getBaseUrl() {
 export function getImageUrl() {
     return getBase() + "images/";
 }
+
+//export const COOKIENAME = 'user';
