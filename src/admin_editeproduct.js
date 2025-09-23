@@ -1,7 +1,7 @@
 import { use, useEffect, useState } from "react";
 import Menu from "./menu";
 import Navbar from "./nav";
-import { Link, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import { getBaseUrl, getImageUrl } from "./comman";
 import axios from "axios";
 import { Showerror, Showmessage } from "./message";
@@ -10,6 +10,7 @@ import { ToastContainer } from "react-toastify";
 export default function Adminediteproduct() {
 
   let { productid } = useParams();
+  let navigate = useNavigate()
   // state variable 
   let [isfached,setFached] = useState(false);
   let [products, setProduct] = useState([]);
@@ -108,7 +109,17 @@ export default function Adminediteproduct() {
   // updateProduct
   let editProduct = function(e){
     let apiAddress = getBaseUrl() +  "update_product.php";
-    let form = new FormData()
+    let form = new FormData();
+    form.append('name',title);
+    form.append('categoryid',category);
+    form.append('detail',details);
+    form.append('islive',isLive);
+    form.append('photo',newphoto);
+    form.append('stock',stock);
+    form.append('size',size);
+    form.append('weight',weight);
+    form.append('price',price)
+    form.append('productid',productid)
     axios({
       responseType:'json',
       method:'post',
@@ -130,7 +141,10 @@ export default function Adminediteproduct() {
 
               }
               else{
-                // pnading
+                Showmessage(message);
+                setTimeout(() => {
+                  navigate('/admin_product')
+                },1000);
                 
               }
       }
@@ -139,6 +153,7 @@ export default function Adminediteproduct() {
     {
      if(error.code === 'ERR_NETWORK');
     });
+            e.preventDefault();
   }
   useEffect(() => {
     facthCategory();
