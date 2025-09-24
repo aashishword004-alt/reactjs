@@ -6,6 +6,7 @@ import axios from 'axios';
 import { ToastContainer } from 'react-toastify';
 import { Showerror, Showmessage } from "./message";
 import { getBaseUrl, getImageUrl } from "./comman";
+import Cookie from "./cookie";
 
 // panding paginassion and searchbar 
 
@@ -140,6 +141,7 @@ export default function Admincategory() {
 
   return (<div id="wrapper">
     {/* Sidebar */}
+    <Cookie/>
     <Menu />
     {/* End of Sidebar */}
     {/* Content Wrapper */}

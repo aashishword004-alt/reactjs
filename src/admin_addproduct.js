@@ -6,6 +6,7 @@ import { useEffect, useState } from "react";
 import { getBaseUrl } from "./comman";
 import axios from "axios";
 import { Showerror, Showmessage } from "./message";
+import Cookie from "./cookie";
 
 export default function Adminadproduct() {
   let navigate = useNavigate()
@@ -19,7 +20,7 @@ export default function Adminadproduct() {
   let [size, setSize] = useState("");
   let [photo, setPhoto] = useState(null);
   let [isLive, setIsLive] = useState("1")
-
+// 
 
   useEffect(() => {
     if (items.length === 0) {
@@ -55,7 +56,7 @@ export default function Adminadproduct() {
       })
     }
   }, [items]);
-  
+  // add prooduct
   let insertData = function (e) {
     // make sour whene aipcall keyvalue are same no mistack 
     // ex  form.append('categoryid', category);
@@ -112,6 +113,7 @@ export default function Adminadproduct() {
 
   return (
     <div id="wrapper">
+      <Cookie/>
       <Menu />
       <div id="content-wrapper" className="d-flex flex-column">
         <div id="content">

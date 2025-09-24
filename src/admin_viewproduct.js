@@ -6,6 +6,7 @@ import { getBaseUrl, getImageUrl } from "./comman";
 import axios from "axios";
 import { Showerror, Showmessage } from "./message";
 import { ToastContainer } from "react-toastify";
+import Cookie from "./cookie";
 
 export default function Adminviewproduct() {
   // whene you find details use useParams
@@ -57,6 +58,7 @@ export default function Adminviewproduct() {
     let { id, categoryid, title, price, stock, weight, size, photo, detail, islive, isdeleted, categorytitle } = products;
     return (<div id="wrapper">
       {/* Sidebar */}
+      <Cookie/>
       <Menu />
       {/* End of Sidebar */}
       {/* Content Wrapper */}

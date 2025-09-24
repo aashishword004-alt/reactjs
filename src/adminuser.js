@@ -7,6 +7,7 @@ import axios from "axios";
 import { Showerror, Showmessage } from "./message";
 import { ToastContainer } from "react-toastify";
 import { Link } from "react-router-dom";
+import Cookie from "./cookie";
 
 
 export default function Adminuser() {
@@ -75,6 +76,7 @@ export default function Adminuser() {
 
   return (<div id="wrapper">
     {/* Sidebar */}
+    <Cookie/>
     <Menu />
     {/* End of Sidebar */}
     {/* Content Wrapper */}

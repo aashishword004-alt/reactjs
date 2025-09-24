@@ -6,6 +6,7 @@ import axios from "axios";
 import { Showerror, Showmessage } from "./message";
 import { ToastContainer } from "react-toastify";
 import { getBaseUrl, getImageUrl } from "./comman";
+import Cookie from "./cookie";
 
 export default function AdminProduct() {
   let [itams, setItams] = useState([]);
@@ -119,6 +120,7 @@ export default function AdminProduct() {
 
   return (<div id="wrapper">
     {/* Sidebar */}
+    <Cookie/>
     <Menu />
     {/* End of Sidebar */}
     {/* Content Wrapper */}

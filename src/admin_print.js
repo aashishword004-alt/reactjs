@@ -1,5 +1,8 @@
+import Cookie from "./cookie";
+
 export default function Adminprint(){
     return(<div>
+      <Cookie/>
   <h2 align="center">Bill</h2> <hr width="90%" />
   <table border={1} cellPadding={10} align="center" width="90%">
     <tbody><tr>

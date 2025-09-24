@@ -6,12 +6,14 @@ import { getBaseUrl } from "./comman";
 import axios from "axios";
 import { Showmessage } from "./message";
 import { ToastContainer } from "react-toastify";
+import Cookie from "./cookie";
 
 export default function Adminaddcategory() {
   let [title, setTitle] = useState('')
   let [photo, setPhoto] = useState()
   let [islive, setIsLive] = useState('')
   let navigate = useNavigate();
+  // insert product 
   let insterdata = function (e) {
     console.log(title, photo, islive);
     let aipAdress = getBaseUrl() + "insert_category.php";
@@ -59,6 +61,7 @@ export default function Adminaddcategory() {
   }
   return (<div>
     <div id="wrapper">
+      <Cookie/>
       <Menu />
       <div id="content-wrapper" className="d-flex flex-column">
         <div id="content">

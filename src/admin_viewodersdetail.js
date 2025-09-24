@@ -6,6 +6,7 @@ import { useEffect, useState } from "react";
 import { Showerror, Showmessage } from "./message";
 import { getBaseUrl } from "./comman";
 import axios from "axios";
+import Cookie from "./cookie";
 
 export default function Adminviewoderdetails() {
   let { orderid } = useParams();
@@ -95,6 +96,7 @@ export default function Adminviewoderdetails() {
 
   return (<div id="wrapper">
     {/* Sidebar */}
+    <Cookie/>
     <Menu />
     {/* End of Sidebar */}
     {/* Content Wrapper */}

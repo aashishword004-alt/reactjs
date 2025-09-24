@@ -1,3 +1,4 @@
+import Cookie from "./cookie";
 import Menu from "./menu";
 import Navbar from "./nav";
 
@@ -6,6 +7,7 @@ export default function Adminchangepassword()
 {
     return(<div id="wrapper">
   {/* Sidebar */}
+  <Cookie/>
  <Menu/>
   {/* End of Sidebar */}
   {/* Content Wrapper */}

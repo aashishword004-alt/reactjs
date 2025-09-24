@@ -1,12 +1,26 @@
 import { useEffect, useState } from "react";
 import Menu from "./menu";
 import Navbar from "./nav";
-import { getBaseUrl } from "./comman";
+import { getBaseUrl} from "./comman";
 import axios from "axios";
 import { Showerror, Showmessage } from "./message";
 import { ToastContainer } from "react-toastify";
+import Cookie from "./cookie";
 
 export default function Admindashbord() {
+/*  let navigate = useNavigate('');
+  // create a cookie variable 
+    const [cookies, setCookie, removeCookie] = useCookies([COOKIENAME]);
+  
+  // create a usezeffact hook
+  useEffect(() =>{
+   if(cookies['userid'] === undefined){
+    navigate("/");
+
+   }
+  console.log(cookies['userid']);
+  })  */
+
   let [item, setItem] = useState([])
   useEffect(() => {
     if(item.length === 0)
@@ -44,7 +58,7 @@ export default function Admindashbord() {
 
     return (<div id="wrapper">
     {/* Sidebar */}
-  
+    <Cookie/>
     <Menu />
     {/* End of Sidebar */}
     {/* Content Wrapper */}

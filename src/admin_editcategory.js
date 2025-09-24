@@ -6,6 +6,7 @@ import { getBaseUrl, getImageUrl } from "./comman";
 import axios from "axios";
 import { Showerror, Showmessage } from "./message";
 import { ToastContainer } from "react-toastify";
+import Cookie from "./cookie";
 
 export default function Admineditecategory() {
   let navigate = useNavigate('')
@@ -116,6 +117,7 @@ export default function Admineditecategory() {
   return (<div>
     <div id="wrapper">
       {/* Sidebar */}
+      <Cookie/>
       <Menu />
       <div id="content-wrapper" className="d-flex flex-column">
         <div id="content">

@@ -6,6 +6,7 @@ import { getBaseUrl, getImageUrl } from "./comman";
 import axios from "axios";
 import { Showerror, Showmessage } from "./message";
 import { ToastContainer } from "react-toastify";
+import Cookie from "./cookie";
 
 export default function Adminediteproduct() {
 
@@ -163,6 +164,7 @@ export default function Adminediteproduct() {
 
   return (<div id="wrapper">
     {/* Sidebar */}
+    <Cookie/>
     <Menu />
     {/* End of Sidebar */}
     {/* Content Wrapper */}

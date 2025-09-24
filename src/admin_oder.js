@@ -6,6 +6,7 @@ import axios from "axios";
 import { Showerror, Showmessage } from "./message";
 import { ToastContainer } from "react-toastify";
 import { Link } from "react-router-dom";
+import Cookie from "./cookie";
 
 export default function Adminoders() {
   let display = function (user) {
@@ -69,6 +70,7 @@ export default function Adminoders() {
   })
   return (<div id="wrapper">
     {/* Sidebar */}
+    <Cookie/>
     <Menu />
     {/* End of Sidebar */}
     {/* Content Wrapper */}
