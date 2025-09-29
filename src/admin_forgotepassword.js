@@ -1,5 +1,24 @@
+import { useEffect } from "react";
 import { Link } from "react-router-dom";
+import { getBaseUrl } from "./comman";
+import axios from "axios";
+import { Showerror } from "./message";
 export default function Adminforgotepassword(){
+  useEffect(() =>{
+    let apiAdress = getBaseUrl() + 'forgot_password.php'
+    axios({
+      responseType:"json",
+      method:'post',
+      url:apiAdress
+    }).then((response) =>{
+      console.log(response.data)
+
+    }).catch((error) =>{
+      if (error.code === "ERR_NETWORK")
+            //  console.log(error.code)
+            Showerror()
+    });
+  });
     return(<div className="container">
   {/* Outer Row */}
   <div className="row justify-content-center">
