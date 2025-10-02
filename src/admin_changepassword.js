@@ -8,6 +8,7 @@ import { getBaseUrl } from "./comman";
 export default function Adminchangepassword()
 
 {
+  // panding change password
 
 
   let UpdatePassword = function (){
