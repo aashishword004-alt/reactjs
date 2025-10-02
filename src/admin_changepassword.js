@@ -1,10 +1,52 @@
 import Cookie from "./cookie";
 import Menu from "./menu";
 import Navbar from "./nav";
-
+import { useEffect } from "react";
+import axios from "axios";
+import { Showerror } from "./message";
+import { getBaseUrl } from "./comman";
 export default function Adminchangepassword()
 
 {
+
+
+  let UpdatePassword = function (){
+    let apiAddres = getBaseUrl() + "admin_change_password.php";
+    console.log(apiAddres);
+
+  }
+  useEffect(() =>{
+    let apiAdress = getBaseUrl() + 'admin_change_password.php';
+    axios({
+      responseType:"json",
+      method:'post',
+      url:apiAdress
+    }).then((response) =>{
+      console.log(response.data)
+      let error = response.data[0]["error"];
+      if(error !== 'no')
+      {
+        Showerror(error)
+      }
+      else{
+        let total = response.data[1]['total'];
+        if(total === 0)
+        {
+          Showerror("Data not Catch");
+        }
+      else{
+        response.data.splice(0,2);
+        console.log(response.data);
+      }
+        
+      }
+
+    }).catch((error) =>{
+      if (error.code === "ERR_NETWORK")
+            //  console.log(error.code)
+            Showerror()
+    });
+  });
     return(<div id="wrapper">
   {/* Sidebar */}
   <Cookie/>
@@ -26,7 +68,7 @@ export default function Adminchangepassword()
                 <h5 className="m-0 font-weight-bold text-primary">Change password</h5>
               </div>
               <div className="card-body">
-                <form action encType="multipart/form-data" method="post">
+                <form action encType="multipart/form-data" onChange={UpdatePassword} method="post">
                   <div className="mb-3">
                     <label htmlFor className="form-label">Current password</label>
                     <input type="password" name id className="form-control" required />
