@@ -3,7 +3,7 @@ import Menu from "./menu";
 import Navbar from "./nav";
 import { useEffect } from "react";
 import axios from "axios";
-import { Showerror } from "./message";
+import { Showerror, Showmessage } from "./message";
 import { getBaseUrl } from "./comman";
 export default function Adminchangepassword()
 
@@ -17,7 +17,7 @@ export default function Adminchangepassword()
 
   }
   useEffect(() =>{
-    let apiAdress = getBaseUrl() + 'admin_change_password.php';
+    let apiAdress = getBaseUrl() + 'admin_login';
     axios({
       responseType:"json",
       method:'post',
@@ -30,16 +30,7 @@ export default function Adminchangepassword()
         Showerror(error)
       }
       else{
-        let total = response.data[1]['total'];
-        if(total === 0)
-        {
-          Showerror("Data not Catch");
-        }
-      else{
-        response.data.splice(0,2);
-        console.log(response.data);
-      }
-        
+        Showmessage("Password must not change");
       }
 
     }).catch((error) =>{
