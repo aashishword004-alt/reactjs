@@ -3,6 +3,9 @@ import ReactDOM from 'react-dom/client';
 import './index.css';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { CookiesProvider } from 'react-cookie';
+ 
+// Restorent 
+import Restorent from './rastorent';
 
 // Admin Pages
 import Login from './adminLogin';
@@ -52,6 +55,7 @@ function Shop() {
 }
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
-root.render(<CookiesProvider>
-  <Shop/>
-</CookiesProvider>);
+// root.render(<CookiesProvider>
+//   <Shop/>
+// </CookiesProvider>);
+root.render(<Restorent/>);
