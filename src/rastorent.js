@@ -1,18 +1,15 @@
 import { Component } from "react";
 
 class Restorent extends Component {
-    constructor(props)
-    {
+    constructor(props) {
         super(props);
-        this.state ={
-            zero:0,
-            one:0,
-            two:0,
-            three:0,
-            four:0,
-            six:0
-
-
+        this.state = {
+            zero: 0,
+            one: 0,
+            two: 0,
+            three: 0,
+            four: 0,
+            six: 0
         }
 
     }
