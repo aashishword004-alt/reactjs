@@ -26,23 +26,7 @@ class Restorent extends Component {
         }
 
     }
-    Addrun = (run) =>{
-       this.setState((prevState) =>({
-        this:prevState.total + run,
-        [this.getRunkey(run)]: prevState[this.getRunkey(run)] + 1
-       })); 
-    };
-    getRunkey =  (run) =>{
-        switch(run){
-            case 0 : return "zero";
-            case 1 : return "one";
-            case 2 : return "Two";
-            case 3 : return "Three";
-            case 4 : return "Four";
-            case 6 : return "six";
-            default : return"";
-        }
-    }
+
     render() {
         return (<>
             <div className="container py-3 my-3" align="center">
@@ -51,30 +35,30 @@ class Restorent extends Component {
                     <div className="col-2 ">
                         <button className="btn">-</button>
                         <span>0</span>
-                        <button onClick={this.Addrun(0)}  className="btn">+</button>
+                        <button  className="btn">+</button>
                     </div>
                     <div className="col-2">
-                        <button className="btn" onClick={this.Addrun(1)}>+</button>
+                        <button className="btn" >+</button>
                         <span>1</span>
                         <button className="btn">-</button>
                     </div>
                     <div className="col-2">
-                        <button className="btn" onClick={this.Addrun(2)}>+</button>
+                        <button className="btn" >+</button>
                         <span>2</span>
                         <button className="btn">-</button>
                     </div>
                     <div className="col-2">
-                        <button className="btn" onClick={this.Addrun(3)}>+</button>
+                        <button className="btn" >+</button>
                         <span>3</span>
                         <button className="btn">-</button>
                     </div>
                     <div className="col-2">
-                        <button className="btn" onClick={this.Addrun(4)}>+</button>
+                        <button className="btn" >+</button>
                         <span>4</span>
                         <button className="btn">-</button>
                     </div>
                     <div className="col-2">
-                        <button className="btn" onClick={this.Addrun(6)}>+</button>
+                        <button className="btn" >+</button>
                         <span>6</span>
                         <button className="btn">-</button>
                     </div>
@@ -84,7 +68,7 @@ class Restorent extends Component {
                     </div>
                     <div className="col-3 my-5">
                         <h6>Total Runs</h6>
-                        <p>{this.state.total}</p>
+                        <p></p>
                     </div>
                 </div>
             </div>
