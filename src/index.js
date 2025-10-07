@@ -58,4 +58,6 @@ const root = ReactDOM.createRoot(document.getElementById('root'));
 // root.render(<CookiesProvider>
 //   <Shop/>
 // </CookiesProvider>);
-root.render(<Restorent/>);
+root.render(<CookiesProvider>
+  <Shop/>
+</CookiesProvider>);
