@@ -4,6 +4,36 @@ import { getBaseUrl } from "./comman";
 import axios from "axios";
 import { Showerror } from "./message";
 export default function Adminforgotepassword(){
+
+  let Changepassword = function(){
+    let apiaddres = getBaseUrl() + "forgot_password.php";
+    axios({
+      method:"post",
+      url:apiaddres,
+      responseType:'json'
+
+    })
+  }
+
+  let Currentpassword = function(){
+    let apiAddress = getBaseUrl() + "admin_login.php";
+
+    axios({
+      method:"post",
+      url:apiAddress,
+      responseType:'json'
+    }).then((response)=>{
+      console.log(response.data);
+
+    }).catch(() =>{
+
+    })
+
+  }
+  useEffect(() =>{
+  Currentpassword();
+  Changepassword();
+  })
   
     return(<div className="container">
   {/* Outer Row */}

@@ -43,7 +43,7 @@ export default function Admindashbord() {
         response.data.splice(0, 1)
         console.log(response.data)
         setItem(response.data[0])
-        Showmessage('Now')
+       // Showmessage('Now')
       }
 
     }).catch((error) => {
