@@ -37,7 +37,7 @@ export default function Adminaddcategory() {
         let success = response.data[1]['success'];
         let message = response.data[2]['message'];
         if (success === 'yes') {
-          Showmessage(message)
+           Showmessage(message)
           // display timer
           setTimeout(() => {
             navigate('/admin_category');
