@@ -2,7 +2,7 @@ import { toast, Bounce } from "react-toastify";
 export function Showerror(message = 'you are offline either server busy') {
     toast.error(message, {
         position: "top-center",
-        autoClose: 5000,
+        autoClose: 1000,
         hideProgressBar: false,
         closeOnClick: false,
         pauseOnHover: true,
@@ -16,7 +16,7 @@ export function Showmessage(message)
 {
                 toast.success(message, {
               position: "top-center",
-              autoClose: 5000,
+              autoClose: 1000,
               hideProgressBar: false,
               closeOnClick: false,
               pauseOnHover: true,

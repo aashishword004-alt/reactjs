@@ -6,9 +6,11 @@ import axios from "axios";
 import { Showerror, Showmessage } from "./message";
 import { getBaseUrl } from "./comman";
 import { ToastContainer } from "react-toastify";
+import { useNavigate } from "react-router-dom";
 
 
 export default function Adminchangepassword() {
+  let navigate = useNavigate("");
   let [Current, setCurrent] = useState("");
   let [NewPassword, setNewpassword] = useState("");
   let [Conform, SetConform] = useState("");
@@ -42,7 +44,10 @@ export default function Adminchangepassword() {
           if (success === "no") {
             Showerror(message);
           } else {
-            Showmessage(message);
+             setTimeout(() => {
+               navigate("/")
+              
+             }, 1000);
           }
         }
       })

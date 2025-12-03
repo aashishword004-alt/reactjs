@@ -123,7 +123,6 @@ export default function Admincategory() {
               respone.data.splice(0, 2);
               console.log(respone.data);
               setItams(respone.data);
-              Showmessage('You Are Online')
 
             }
           }
