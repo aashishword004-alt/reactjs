@@ -146,6 +146,9 @@ export default function Adminviewproduct() {
     )
   }
   else {
-    return(<></>)
+    return(<div><h1>
+      product not found 
+    </h1>
+    </div>)
   }
 }

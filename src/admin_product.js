@@ -101,7 +101,7 @@ export default function AdminProduct() {
             Showmessage("Category not found")
           }
           else {
-            // condition is true delete to object of array
+            // condition is true delete two object of array
             response.data.splice(0, 2)
             console.log(response.data);
             setItams(response.data)

@@ -22,10 +22,10 @@ export default function Adminviewoderdetails() {
         <td width="25%">{item.billdate}</td>
       </tr>
       <tr>
-        <td>Address</td>
+        <td>Addres</td>
         <td>
-          eva surbhi, opp akshwarwadi <br />
-          Waghwadi road, bhavnagar
+         {item.address1} <br />
+          {item.address2}, {item.city}
         </td>
         <td>Bill No</td>
         <td>125</td>
@@ -35,7 +35,7 @@ export default function Adminviewoderdetails() {
         <td>{item.pincode}</td>
         <td>Delivery Status</td>
         <td>
-          <form action>
+          <form method="post">
             <select className="form-control" name="orderstatus" id="orderstatus">
               <option value>Select</option>
               <option value>Confirmed</option>
@@ -43,7 +43,7 @@ export default function Adminviewoderdetails() {
               <option value>Delivered</option>
               <option value>Canceled</option>
             </select>
-            <input type="submit" defaultValue="save" className="btn btn-primary w-100 mt-1" />
+            <button type="submit" defaultValue="save" className="btn btn-primary w-100 mt-1" > Submit </button> 
           </form>
         </td>
       </tr>

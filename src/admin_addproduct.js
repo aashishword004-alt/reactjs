@@ -65,7 +65,7 @@ export default function Adminadproduct() {
 
     e.preventDefault();
     let apiaddress = getBaseUrl() + "insert_product.php";
-    let form = new FormData(e.target);
+    let form = new FormData();
     form.append('categoryid', category);
     form.append('name', title);
     form.append('price', price);

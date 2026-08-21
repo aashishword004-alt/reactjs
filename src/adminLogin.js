@@ -47,7 +47,7 @@ export default function Login() {
           // cookie
           setCookie('userid', response.data[3]['id']);
           console.log('userid', cookies['userid']);
-          Showmessage("Lgin Sucessfully ")
+          Showmessage("Login Sucessfully ")
            setTimeout(() => {
             navigate('/admin_dashbord')
           }, 2000);

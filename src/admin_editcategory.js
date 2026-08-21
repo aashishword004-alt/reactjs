@@ -40,7 +40,7 @@ export default function Admineditecategory() {
 
       }
       else {
-        let success = response.data[1]['success']; // ✅ FIXED
+        let success = response.data[1]['success']; //
      //   let success = response.data[1]['success'];
         let message = response.data[2]['message'];
         if (success == 'no') {
