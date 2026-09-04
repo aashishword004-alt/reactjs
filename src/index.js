@@ -48,7 +48,7 @@ function Shop() {
         <Route path='/admin_print' element={<Adminprint />} />
         <Route path='/admin_product' element={<AdminProduct />} />
         <Route path='/adminuser' element={<Adminuser />} />
-        //<Route path='/*' element={<Four />} />
+        <Route path='*' element={<Four />} />
       </Routes>
     </BrowserRouter>
   );
