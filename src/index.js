@@ -27,7 +27,7 @@ import Four from './404';
 
 function Shop() {
   return (
-    <BrowserRouter>
+  <BrowserRouter basename="/reactjs">
       <Routes>
         <Route path='/' element={<Login />} />
         <Route path='/admin_addcategory' element={<Adminaddcategory />} />

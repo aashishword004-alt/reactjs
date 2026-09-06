@@ -1,4 +1,4 @@
-import {  useState } from "react";
+import { useState } from "react";
 import { COOKIENAME } from "./comman";
 import { Link, useNavigate } from "react-router-dom";
 import { getBaseUrl } from "./comman";
@@ -44,12 +44,12 @@ export default function Login() {
           Showerror(message);
         }
         else {
-         // Showmessage(message);
+          // Showmessage(message);
           // cookie
           setCookie('userid', response.data[3]['id']);
           console.log('userid', cookies['userid']);
           Showmessage("Login Sucessfully ")
-           setTimeout(() => {
+          setTimeout(() => {
             navigate('/admin_dashbord')
           }, 2000);
         }
@@ -72,7 +72,10 @@ export default function Login() {
             {/* Nested Row within Card Body */}
             <div className="row">
               <div className="col-lg-6 d-none d-lg-block">
-                <img src="/theme/img/large.png" />
+                <img
+                  src={process.env.PUBLIC_URL + "/theme/img/large.png"}
+                  alt="Admin Login"
+                />
               </div>
               <div className="col-lg-6">
                 <div className="p-5">
